@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefHeight="526.0" prefWidth="893.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PaymentController">
+   <children>
+      <Pane prefHeight="200.0" prefWidth="893.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="162.0" text="Search Payments:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tblPayment" editable="true" layoutX="14.0" layoutY="61.0" prefHeight="371.0" prefWidth="867.0" tableMenuButtonVisible="true">
+              <columns>
+                  <TableColumn fx:id="colPid" prefWidth="58.0" text="PID" />
+                <TableColumn fx:id="colDate" prefWidth="71.0" text="Date" />
+                <TableColumn fx:id="colCompany" prefWidth="162.0" text="Company Name" />
+                <TableColumn fx:id="colChallan" prefWidth="111.0" text="Challan No." />
+                  <TableColumn fx:id="colBill" prefWidth="118.0" text="Bill No." />
+                  <TableColumn fx:id="colPo" prefWidth="120.0" text="PO No." />
+                  <TableColumn fx:id="colAmount" minWidth="0.0" prefWidth="113.0" text="Amount" />
+                  <TableColumn fx:id="colCheque" maxWidth="226.0" prefWidth="113.0" text="Cheque No." />
+              </columns>
+            </TableView>
+            <TextField fx:id="txPaySearch" layoutX="631.0" layoutY="29.0" prefHeight="25.0" prefWidth="171.0" promptText="Enter a keyword" />
+            <Button fx:id="btPaySearch" layoutX="818.0" layoutY="29.0" mnemonicParsing="false" onAction="#onClickSearch" prefHeight="25.0" prefWidth="61.0" text="Search" />
+            <Button fx:id="payRefresh" layoutX="809.0" layoutY="478.0" mnemonicParsing="false" onAction="#onClickRefresh" prefHeight="25.0" prefWidth="70.0" text="Refresh" />
+            <Button fx:id="payEdit" layoutX="730.0" layoutY="478.0" mnemonicParsing="false" onAction="#onClickEdit" prefHeight="25.0" prefWidth="70.0" text="Edit" />
+            <Button fx:id="payDel" layoutX="651.0" layoutY="478.0" mnemonicParsing="false" onAction="#onClickDel" prefHeight="25.0" prefWidth="70.0" text="Delete" />
+            <TextField fx:id="payTotal" alignment="CENTER_RIGHT" editable="false" layoutX="650.0" layoutY="440.0" prefHeight="25.0" prefWidth="231.0" promptText="Total">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </TextField>
+            <DatePicker fx:id="dpPayEnd" layoutX="450.0" layoutY="29.0" promptText="End Date" />
+            <DatePicker fx:id="dpPayStart" layoutX="253.0" layoutY="29.0" promptText="Start Date" />
+            <Label layoutX="433.0" layoutY="33.0" prefHeight="17.0" prefWidth="14.0" text="To" />
+            <Label layoutX="183.0" layoutY="33.0" prefHeight="17.0" prefWidth="70.0" text="Date Range:" />
+         </children></Pane>
+   </children>
+</StackPane>
