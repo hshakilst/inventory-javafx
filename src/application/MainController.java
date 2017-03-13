@@ -147,8 +147,6 @@ public class MainController implements Initializable{
 	@FXML
 	private TextField paperCWeight;
 	@FXML
-	private TextField paperCRate;
-	@FXML
 	private ComboBox<String> paperCType;
 	@FXML
 	private ComboBox<String> paperCMill;
@@ -165,6 +163,8 @@ public class MainController implements Initializable{
 	private TextField txCreatePMill;
 	@FXML
 	private TextField txCreatePSize;
+	@FXML
+	private TextField txCreatePRate;
 	@FXML
 	private Button btCreatePaper;
 	@FXML
@@ -415,6 +415,38 @@ public class MainController implements Initializable{
 								DialogueBox.error(e);
 							}
 						});
+						sQty.setOnAction((event) -> {
+							if(sCompany.getSelectionModel().getSelectedItem() == null ||
+									sItem.getSelectionModel().getSelectedItem() == null ||
+									!(Pattern.matches("[\\d]+", sQty.getText()))){
+								sRate.setText("0.0");
+							}
+							else{
+								Database db = new Database();
+								ResultSet rs2 = db.query("select rate from products where company_name = ? and item_name = ? ", 
+										sCompany.getSelectionModel().getSelectedItem().toString(), 
+										sItem.getSelectionModel().getSelectedItem().toString());
+								double rate = 0.0;
+								try {
+									while(rs2.next()){
+										rate = rs2.getDouble(1);
+										System.out.println(1);
+									}
+									sRate.setText(String.valueOf(rate*Double.parseDouble(sQty.getText())));
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									DialogueBox.error(e);
+								} finally{
+									db.close();
+									try {
+										rs2.close();
+									} catch (SQLException e) {
+										// TODO Auto-generated catch block
+										DialogueBox.error(e);
+									}
+								}
+							}
+						});
 					}catch(Exception e){
 						DialogueBox.error(e);
 					}
@@ -575,13 +607,14 @@ public class MainController implements Initializable{
 	
 	public void onClickCreatePapers(){
 		if(txCreateTCompany.getText().isEmpty() || txCreatePType.getText().isEmpty() || txCreatePMill.getText().isEmpty() 
-				|| txCreatePSize.getText().isEmpty()){
+				|| txCreatePSize.getText().isEmpty() || txCreatePRate.getText().isEmpty()){
 			DialogueBox.warning("Fill the required field!");
 		}
 		else if(!(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", txCreateTCompany.getText())) || 
 				!(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", txCreatePType.getText())) || 
 				!(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", txCreatePMill.getText())) ||
-				!(Pattern.matches("[\\d\\.]+", txCreatePSize.getText()))){
+				!(Pattern.matches("[\\d\\.]+", txCreatePSize.getText())) || 
+				!(Pattern.matches("[\\d\\.]+", txCreatePRate.getText()))){
 			DialogueBox.warning("Invalid input detected!");
 		}
 		else{
@@ -591,9 +624,8 @@ public class MainController implements Initializable{
 					Platform.runLater(()->{
 						try{
 							PaperProperty prop = new PaperProperty(txCreateTCompany.getText(), txCreatePType.getText(), txCreatePMill.getText(), 
-									Double.parseDouble(txCreatePSize.getText()));
+									Double.parseDouble(txCreatePSize.getText()), Double.parseDouble(txCreatePRate.getText()));
 							prop.entryProperty();
-							
 						}catch(Exception e){
 							DialogueBox.error(e);
 						}
@@ -659,11 +691,10 @@ public class MainController implements Initializable{
 	public void onClickPConsume(){
 		if(paperCTCompany.getSelectionModel().getSelectedItem() == null || paperCDate.getValue() == null || paperCChallan.getText().isEmpty() ||
 				paperCType.getSelectionModel().getSelectedItem() == null || paperCMill.getSelectionModel().getSelectedItem() == null || 
-				paperCSize.getSelectionModel().getSelectedItem() == null || paperCWeight.getText().isEmpty() || paperCRate.getText().isEmpty()){
+				paperCSize.getSelectionModel().getSelectedItem() == null || paperCWeight.getText().isEmpty()){
 			DialogueBox.warning("Fill the required field!");
 		}
-		else if(!(Pattern.matches("[\\d]+", paperCChallan.getText())) || !(Pattern.matches("[\\d\\.]+", paperCWeight.getText())) || 
-				!(Pattern.matches("[\\d\\.]+", paperCRate.getText()))){
+		else if(!(Pattern.matches("[\\d]+", paperCChallan.getText())) || !(Pattern.matches("[\\d\\.]+", paperCWeight.getText()))){
 			DialogueBox.warning("Invalid input detected!");
 		}
 		else{
@@ -678,7 +709,7 @@ public class MainController implements Initializable{
 									Long.parseLong(paperCChallan.getText()), paperCType.getSelectionModel().getSelectedItem().toString(),
 									paperCMill.getSelectionModel().getSelectedItem().toString(), 
 									Double.parseDouble(paperCSize.getSelectionModel().getSelectedItem().toString()), 
-									Double.parseDouble(paperCWeight.getText()), Double.parseDouble(paperCRate.getText()));
+									Double.parseDouble(paperCWeight.getText()));
 							paper.entryConsume();
 						}catch(Exception e){
 							DialogueBox.error(e);
@@ -838,6 +869,42 @@ public class MainController implements Initializable{
 								DialogueBox.error(e);
 							}
 						});
+						paperWeight.setOnAction((event) -> {
+							if(paperTCompany.getSelectionModel().getSelectedItem() == null || 
+									paperType.getSelectionModel().getSelectedItem() == null ||
+									paperMill.getSelectionModel().getSelectedItem() == null ||
+									paperSize.getSelectionModel().getSelectedItem() == null ||
+									!(Pattern.matches("[\\d\\.]+", paperWeight.getText()))){
+								paperRate.setText("0.0");
+							}
+							else{
+								Database db = new Database();
+								ResultSet rs2 = db.query("select rate from paper_property where trading_company = ? and type = ? "
+										+ "and mill = ? and size = ?", paperTCompany.getSelectionModel().getSelectedItem().toString(), 
+										paperType.getSelectionModel().getSelectedItem().toString(), 
+										paperMill.getSelectionModel().getSelectedItem().toString(),
+										paperSize.getSelectionModel().getSelectedItem().toString());
+								double rate = 0.0;
+								try {
+									while(rs2.next()){
+										rate = rs2.getDouble(1);
+										System.out.println(1);
+									}
+									paperRate.setText(String.valueOf(rate*Double.parseDouble(paperWeight.getText())));
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									DialogueBox.error(e);
+								} finally{
+									db.close();
+									try {
+										rs2.close();
+									} catch (SQLException e) {
+										// TODO Auto-generated catch block
+										DialogueBox.error(e);
+									}
+								}
+							}
+						});
 					}catch(Exception e){
 						DialogueBox.error(e);
 					}
@@ -885,7 +952,7 @@ public class MainController implements Initializable{
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("PaperConsume.fxml"));
 			Parent root = (Parent)loader.load();
 			PaperConController controller = (PaperConController)loader.getController();
-			Scene s = new Scene(root,980,560);
+			Scene s = new Scene(root,879,594);
 			s.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			secondary4.setScene(s);
 			secondary4.resizableProperty().set(false);
@@ -914,7 +981,7 @@ public class MainController implements Initializable{
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("PaperProperty.fxml"));
 			Parent root = (Parent)loader.load();
 			PaperPropController controller = (PaperPropController)loader.getController();
-			Scene s = new Scene(root,568,490);
+			Scene s = new Scene(root,646,490);
 			s.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			secondary5.setScene(s);
 			secondary5.resizableProperty().set(false);
@@ -973,6 +1040,8 @@ public class MainController implements Initializable{
 				this.initPayTextField();
 			}
 		});
+		
+		this.paperRate.setEditable(false);
 	}
 	
 }

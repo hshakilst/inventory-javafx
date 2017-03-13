@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SalesController">
+<StackPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SalesController">
    <children>
       <Pane prefHeight="560.0" prefWidth="1077.0">
          <children>
@@ -30,7 +30,7 @@
                   <TableColumn fx:id="colCompanyName" prefWidth="132.0" text="Company Name" />
                   <TableColumn fx:id="colProductName" prefWidth="132.0" text="Product Name" />
                   <TableColumn fx:id="colQty" prefWidth="66.0" text="Qty" />
-                  <TableColumn fx:id="colRate" prefWidth="77.0" text="Rate" />
+                  <TableColumn fx:id="colRate" prefWidth="77.0" text="Amount" />
                   <TableColumn fx:id="colVatAmnt" prefWidth="88.0" text="VAT Amount" />
                   <TableColumn fx:id="colAitAmnt" prefWidth="95.0" text="AIT Amount" />
               </columns>

@@ -63,7 +63,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="34.0" layoutY="242.0" prefHeight="26.0" prefWidth="132.0" text="Rate :">
+                        <Label alignment="CENTER_RIGHT" layoutX="34.0" layoutY="242.0" prefHeight="26.0" prefWidth="132.0" text="Cost :">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -78,9 +78,9 @@
                         <TextField fx:id="paperChallan" layoutX="173.0" layoutY="111.0" prefHeight="26.0" prefWidth="222.0" />
                         <ComboBox fx:id="paperType" layoutX="173.0" layoutY="137.0" prefHeight="26.0" prefWidth="222.0" />
                         <ComboBox fx:id="paperMill" layoutX="173.0" layoutY="163.0" prefHeight="26.0" prefWidth="221.0" />
-                        <TextField fx:id="paperWeight" layoutX="173.0" layoutY="216.0" prefHeight="26.0" prefWidth="222.0" />
-                        <TextField fx:id="paperRate" layoutX="173.0" layoutY="242.0" prefHeight="26.0" prefWidth="222.0" />
-                        <TextField fx:id="paperTCost" layoutX="173.0" layoutY="268.0" prefHeight="26.0" prefWidth="222.0" />
+                        <TextField fx:id="paperWeight" layoutX="173.0" layoutY="215.0" prefHeight="26.0" prefWidth="222.0" />
+                        <TextField fx:id="paperRate" layoutX="173.0" layoutY="241.0" prefHeight="26.0" prefWidth="222.0" />
+                        <TextField fx:id="paperTCost" layoutX="173.0" layoutY="267.0" prefHeight="26.0" prefWidth="222.0" />
                         <Button fx:id="paperSubmit" layoutX="322.0" layoutY="308.0" mnemonicParsing="false" onAction="#onClickPPurchase" prefHeight="30.0" prefWidth="72.0" text="Submit" />
                         <Label alignment="CENTER_RIGHT" layoutX="457.0" layoutY="62.0" prefHeight="26.0" prefWidth="132.0" text="Trading Company :">
                            <font>
@@ -117,7 +117,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="457.0" layoutY="245.0" prefHeight="26.0" prefWidth="132.0" text="Rate :">
+                        <Label alignment="CENTER_RIGHT" layoutX="872.0" layoutY="166.0" prefHeight="26.0" prefWidth="132.0" text="Rate :">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -127,9 +127,9 @@
                         <TextField fx:id="paperCChallan" layoutX="596.0" layoutY="114.0" prefHeight="26.0" prefWidth="222.0" />
                         <ComboBox fx:id="paperCType" layoutX="596.0" layoutY="140.0" prefHeight="26.0" prefWidth="221.0" />
                         <ComboBox fx:id="paperCMill" layoutX="596.0" layoutY="166.0" prefHeight="26.0" prefWidth="221.0" />
-                        <TextField fx:id="paperCWeight" layoutX="596.0" layoutY="219.0" prefHeight="26.0" prefWidth="222.0" />
-                        <TextField fx:id="paperCRate" layoutX="596.0" layoutY="245.0" prefHeight="26.0" prefWidth="222.0" />
-                        <Button fx:id="paperCSubmit" layoutX="746.0" layoutY="283.0" mnemonicParsing="false" onAction="#onClickPConsume" prefHeight="30.0" prefWidth="72.0" text="Submit" />
+                        <TextField fx:id="paperCWeight" layoutX="596.0" layoutY="218.0" prefHeight="26.0" prefWidth="222.0" />
+                        <TextField fx:id="txCreatePRate" layoutX="1010.0" layoutY="165.0" prefHeight="26.0" prefWidth="213.0" />
+                        <Button fx:id="paperCSubmit" layoutX="746.0" layoutY="258.0" mnemonicParsing="false" onAction="#onClickPConsume" prefHeight="30.0" prefWidth="72.0" text="Submit" />
                         <Label layoutX="449.0" layoutY="17.0" prefHeight="28.0" prefWidth="125.0" text="Consumptions:">
                            <font>
                               <Font name="System Bold" size="16.0" />
@@ -169,7 +169,7 @@
                            </font>
                         </Label>
                         <TextField fx:id="txCreatePSize" layoutX="1010.0" layoutY="139.0" prefHeight="26.0" prefWidth="213.0" />
-                        <Button fx:id="btCreatePaper" layoutX="1151.0" layoutY="176.0" mnemonicParsing="false" onAction="#onClickCreatePapers" prefHeight="30.0" prefWidth="72.0" text="Create" />
+                        <Button fx:id="btCreatePaper" layoutX="1151.0" layoutY="205.0" mnemonicParsing="false" onAction="#onClickCreatePapers" prefHeight="30.0" prefWidth="72.0" text="Create" />
                         <ComboBox fx:id="paperCSize" layoutX="596.0" layoutY="192.0" prefHeight="26.0" prefWidth="221.0" />
                         <ComboBox fx:id="paperSize" layoutX="173.0" layoutY="189.0" prefHeight="26.0" prefWidth="221.0" />
                      </children>
@@ -250,15 +250,14 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="848.0" layoutY="151.0" prefHeight="26.0" prefWidth="174.0" text="Manufacturing Company :">
+                        <Label alignment="CENTER_RIGHT" layoutX="848.0" layoutY="100.0" prefHeight="26.0" prefWidth="174.0" text="Manufacturing Company :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
                         <TextField layoutX="1028.0" layoutY="74.0" prefHeight="26.0" prefWidth="213.0" />
-                        <TextField layoutX="1028.0" layoutY="151.0" prefHeight="26.0" prefWidth="213.0" />
-                        <Button layoutX="1162.0" layoutY="103.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Create" />
-                        <Button layoutX="1162.0" layoutY="181.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Create" />
+                        <TextField layoutX="1028.0" layoutY="100.0" prefHeight="26.0" prefWidth="213.0" />
+                        <Button layoutX="1176.0" layoutY="138.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Create" />
                         <Button fx:id="pRecords11" layoutX="166.0" layoutY="413.0" mnemonicParsing="false" onAction="#onClickPRecords" prefHeight="30.0" prefWidth="147.0" text="Purchase Records" />
                         <TextField layoutX="182.0" layoutY="139.0" prefHeight="26.0" prefWidth="222.0" />
                         <TextField layoutX="182.0" layoutY="165.0" prefHeight="26.0" prefWidth="222.0" />
@@ -365,7 +364,7 @@
                            </font>
                         </Label>
                         <TextField fx:id="sQty" layoutX="173.0" layoutY="232.0" prefHeight="26.0" prefWidth="222.0" />
-                        <Label alignment="CENTER_RIGHT" layoutX="29.0" layoutY="258.0" prefHeight="26.0" prefWidth="132.0" text="Rate :">
+                        <Label alignment="CENTER_RIGHT" layoutX="29.0" layoutY="258.0" prefHeight="26.0" prefWidth="132.0" text="Amount :">
                            <font>
                               <Font size="14.0" />
                            </font>

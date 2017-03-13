@@ -12,10 +12,9 @@ public class PaperConsumption {
 	private String mill;
 	private double size;
 	private double weight;
-	private double rate;
 	
 	public PaperConsumption(int id, String tradingCompany, String date, long challan, String type, String mill,
-			double size, double weight, double rate) {
+			double size, double weight) {
 		super();
 		this.id = id;
 		this.tradingCompany = tradingCompany;
@@ -25,11 +24,10 @@ public class PaperConsumption {
 		this.mill = mill;
 		this.size = size;
 		this.weight = weight;
-		this.rate = rate;
 	}
 	
 	public PaperConsumption(String tradingCompany, String date, long challan, String type, String mill,
-			double size, double weight, double rate) {
+			double size, double weight) {
 		super();
 		this.tradingCompany = tradingCompany;
 		this.date = date;
@@ -38,7 +36,6 @@ public class PaperConsumption {
 		this.mill = mill;
 		this.size = size;
 		this.weight = weight;
-		this.rate = rate;
 	}
 
 	public int getId() {
@@ -104,14 +101,6 @@ public class PaperConsumption {
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
-
-	public double getRate() {
-		return rate;
-	}
-
-	public void setRate(double rate) {
-		this.rate = rate;
-	}
 	
 	public void entryConsume() throws SQLException{
 		Database data = new Database();
@@ -119,9 +108,9 @@ public class PaperConsumption {
 				this.getTradingCompany(), this.getType(), this.getMill(), this.getSize());
 		rs.next();
 		if(rs.getInt(1) == 1){
-			data.update("insert into paper_consumption (trading_company, date, challan_no, type, mill, size, weight, rate) "
-					+ "values (?, ?, ?, ?, ?, ?, ?, ?)", this.getTradingCompany(), this.getDate(), this.getChallan(), this.getType(), this.getMill(), 
-					this.getSize(), this.getWeight(), this.getRate());
+			data.update("insert into paper_consumption (trading_company, date, challan_no, type, mill, size, weight) "
+					+ "values (?, ?, ?, ?, ?, ?, ?)", this.getTradingCompany(), this.getDate(), this.getChallan(), this.getType(), this.getMill(), 
+					this.getSize(), this.getWeight());
 			rs = data.query("select weight from paper_property where trading_company = ? and type = ? and mill = ? and size = ?", 
 					this.getTradingCompany(), this.getType(), this.getMill(), this.getSize());
 			rs.next();

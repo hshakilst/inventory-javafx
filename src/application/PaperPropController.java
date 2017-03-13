@@ -44,6 +44,8 @@ public class PaperPropController implements Initializable{
 	@FXML
 	private TableColumn<PaperProperty, Number> colSize;
 	@FXML
+	private TableColumn<PaperProperty, Number> colRate;
+	@FXML
 	private Button btRefresh;
 	@FXML
 	private Button btDel;
@@ -82,13 +84,14 @@ public class PaperPropController implements Initializable{
 		colType.setCellValueFactory(new PropertyValueFactory<>("type"));
 		colMill.setCellValueFactory(new PropertyValueFactory<>("mill"));
 		colSize.setCellValueFactory(new PropertyValueFactory<>("size"));
+		colRate.setCellValueFactory(new PropertyValueFactory<>("rate"));
 	}
 	
 	public void loadTable(ResultSet rs) throws SQLException{
 		data = FXCollections.observableArrayList();
 		try {
 			while(rs.next()){
-				data.add(new PaperProperty(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5)));
+				data.add(new PaperProperty(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getDouble(7)));
 			}
 		} catch (SQLException e) {
 			DialogueBox.error(e);
@@ -181,6 +184,26 @@ public class PaperPropController implements Initializable{
 				                }
 				            }
 						}));
+						colRate.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter(){
+							@Override
+				            public String toString(Number number) {
+				                return String.valueOf(number.doubleValue());
+				            }
+							@Override
+							public Double fromString(String string) {
+				                try {
+				                    double value = Double.parseDouble(string);
+				                    return value;
+				                } catch (NumberFormatException e) {
+				                	Alert alert = new Alert(AlertType.WARNING);
+				            		alert.setTitle("Warning!");
+				            		alert.setHeaderText(null);
+				            		alert.setContentText("Invalid input detected!");
+				            		alert.showAndWait();
+				            		return Double.parseDouble(toString());
+				                }
+				            }
+						}));
 						colCompany.setOnEditCommit(
 					            new EventHandler<CellEditEvent<PaperProperty, String>>() {
 					                @Override
@@ -241,6 +264,23 @@ public class PaperPropController implements Initializable{
 					                		((PaperProperty) tab.getTableView().getItems().get(
 							                        tab.getTablePosition().getRow())
 							                        ).editProperty("size",tab.getNewValue(), 
+							                        		tab.getTableView().getSelectionModel().getSelectedItem().getId());
+					                	}
+					                }
+					            }
+					        );
+						colRate.setOnEditCommit(
+					            new EventHandler<CellEditEvent<PaperProperty, Number>>() {
+					                @Override
+					                public void handle(CellEditEvent<PaperProperty, Number> tab) {
+					                	if(String.valueOf(tab.getNewValue()).isEmpty() || 
+					                			!(Pattern.matches("[\\d\\.]+", String.valueOf(tab.getNewValue())))){
+					                		DialogueBox.warning("Invalid input detected!");
+					                	}
+					                	else{
+					                		((PaperProperty) tab.getTableView().getItems().get(
+							                        tab.getTablePosition().getRow())
+							                        ).editProperty("rate",tab.getNewValue(), 
 							                        		tab.getTableView().getSelectionModel().getSelectedItem().getId());
 					                	}
 					                }

@@ -56,8 +56,6 @@ public class PaperConController implements Initializable{
 	@FXML
 	private TableColumn<PaperConsumption, Number> colWeight;
 	@FXML
-	private TableColumn<PaperConsumption, Number> colRate;
-	@FXML
 	private Button btRefresh;
 	@FXML
 	private Button btDel;
@@ -142,9 +140,8 @@ public class PaperConController implements Initializable{
 		colType.setCellValueFactory(new PropertyValueFactory<>("type"));
 		colMill.setCellValueFactory(new PropertyValueFactory<>("mill"));
 		colSize.setCellValueFactory(new PropertyValueFactory<>("size"));
-		colWeight.setCellValueFactory(new PropertyValueFactory<>("weight"));
-		colRate.setCellValueFactory(new PropertyValueFactory<>("rate"));
-		colRate.setCellValueFactory(new PropertyValueFactory<>("rate"));
+		colWeight.setCellValueFactory(new PropertyValueFactory<>("weight"));/*
+		colRate.setCellValueFactory(new PropertyValueFactory<>("rate"));*/
 	}
 	
 	public void loadTable(ResultSet rs) throws SQLException{
@@ -157,7 +154,7 @@ public class PaperConController implements Initializable{
 					date = arr[2]+"/"+arr[1]+"/"+arr[0].substring(2);
 				}
 				data.add(new PaperConsumption(rs.getInt(1), rs.getString(2), date, rs.getLong(4), rs.getString(5), rs.getString(6), 
-						rs.getDouble(7), rs.getDouble(8), rs.getDouble(9)));
+						rs.getDouble(7), rs.getDouble(8)));
 			}
 		} catch (SQLException e) {
 			DialogueBox.error(e);
@@ -272,26 +269,6 @@ public class PaperConController implements Initializable{
 				            }
 						}));
 						colWeight.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter(){
-							@Override
-				            public String toString(Number number) {
-				                return String.valueOf(number.doubleValue());
-				            }
-							@Override
-							public Double fromString(String string) {
-				                try {
-				                    double value = Double.parseDouble(string);
-				                    return value;
-				                } catch (NumberFormatException e) {
-				                	Alert alert = new Alert(AlertType.WARNING);
-				            		alert.setTitle("Warning!");
-				            		alert.setHeaderText(null);
-				            		alert.setContentText("Invalid input detected!");
-				            		alert.showAndWait();
-				            		return Double.parseDouble(toString());
-				                }
-				            }
-						}));
-						colRate.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter(){
 							@Override
 				            public String toString(Number number) {
 				                return String.valueOf(number.doubleValue());
@@ -427,23 +404,6 @@ public class PaperConController implements Initializable{
 					                }
 					            }
 					        );
-						colRate.setOnEditCommit(
-								new EventHandler<CellEditEvent<PaperConsumption, Number>>() {
-					                @Override
-					                public void handle(CellEditEvent<PaperConsumption, Number> tab) {
-					                	if(String.valueOf(tab.getNewValue()).isEmpty() || 
-					                			!(Pattern.matches("[\\d\\.]+", String.valueOf(tab.getNewValue())))){
-					                		DialogueBox.warning("Invalid input detected!");
-					                	}
-					                	else{
-					                		((PaperConsumption) tab.getTableView().getItems().get(
-							                        tab.getTablePosition().getRow())
-							                        ).editConsume("rate",tab.getNewValue(), 
-							                        		tab.getTableView().getSelectionModel().getSelectedItem().getId());
-					                	}
-					                }
-					            }
-					        );
 					}catch(Exception e){
 						DialogueBox.error(e);
 					}
@@ -574,7 +534,7 @@ public class PaperConController implements Initializable{
 	public String addTotal(ObservableList<PaperConsumption> data){
 		double total = 0;
 		for(PaperConsumption d : data){
-			total += d.getRate();
+			total += d.getWeight();
 		}
 		return String.valueOf(total);
 	}

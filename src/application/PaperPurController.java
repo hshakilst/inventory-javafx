@@ -146,7 +146,6 @@ public class PaperPurController implements Initializable{
 		colSize.setCellValueFactory(new PropertyValueFactory<>("size"));
 		colWeight.setCellValueFactory(new PropertyValueFactory<>("weight"));
 		colRate.setCellValueFactory(new PropertyValueFactory<>("rate"));
-		colRate.setCellValueFactory(new PropertyValueFactory<>("rate"));
 		colTCost.setCellValueFactory(new PropertyValueFactory<>("transportCost"));
 	}
 	

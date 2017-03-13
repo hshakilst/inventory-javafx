@@ -12,7 +12,7 @@ public class PaperPurchase {
 	private String mill;
 	private double size;
 	private double weight;
-	private double rate;
+	private double rate;      //rate is  total cost******
 	private double transportCost;
 	
 	public PaperPurchase(String tradingCompany, String date, long challan, String type, String mill, double size, double weight, 

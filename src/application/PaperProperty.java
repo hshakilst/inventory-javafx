@@ -6,22 +6,25 @@ public class PaperProperty {
 	private String type;
 	private String mill;
 	private double size;
+	private double rate;
 	
-	public PaperProperty(int id, String company, String type, String mill, double size) {
+	public PaperProperty(int id, String company, String type, String mill, double size, double rate) {
 		super();
 		this.id = id;
 		this.company = company;
 		this.type = type;
 		this.mill = mill;
 		this.size = size;
+		this.rate = rate;
 	}
 	
-	public PaperProperty(String company, String type, String mill, double size) {
+	public PaperProperty(String company, String type, String mill, double size, double rate) {
 		super();
 		this.company = company;
 		this.type = type;
 		this.mill = mill;
 		this.size = size;
+		this.rate = rate;
 	}
 
 	public int getId() {
@@ -62,11 +65,20 @@ public class PaperProperty {
 
 	public void setSize(double size) {
 		this.size = size;
-	}	
+	}
+	
+	public double getRate() {
+		return rate;
+	}
+
+	public void setRate(double rate) {
+		this.rate = rate;
+	}
+	
 	public void entryProperty(){
 		Database data = new Database();
-		data.update("insert into paper_property (trading_company, type, mill, size, weight) values (?, ?, ?, ?, ?)",
-				this.getCompany(), this.getType(), this.getMill(), this.getSize(), 0.0d);
+		data.update("insert into paper_property (trading_company, type, mill, size, weight, rate) values (?, ?, ?, ?, ?, ?)",
+				this.getCompany(), this.getType(), this.getMill(), this.getSize(), 0.0d, this.getRate());
 		data.close();
 	}
 	

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PaperPurController">
+<StackPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PaperPurController">
    <children>
       <Pane prefHeight="560.0" prefWidth="1077.0">
          <children>
@@ -29,7 +29,7 @@
                   <TableColumn fx:id="colMill" prefWidth="174.0" text="Paper Mill" />
                   <TableColumn fx:id="colSize" prefWidth="74.0" text="Size" />
                   <TableColumn fx:id="colWeight" prefWidth="96.0" text="Weight" />
-                  <TableColumn fx:id="colRate" prefWidth="89.0" text="Rate" />
+                  <TableColumn fx:id="colRate" prefWidth="89.0" text="Cost" />
                   <TableColumn fx:id="colTCost" prefWidth="107.0" text="Transport Cost" />
               </columns>
             </TableView>
