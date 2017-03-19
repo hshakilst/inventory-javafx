@@ -170,6 +170,17 @@ public class MainController implements Initializable{
 	@FXML
 	private Button btPProperty;
 	
+	@FXML
+	private TextField txCreateCTCom;
+	@FXML
+	private TextField txCreateCMCom;
+	@FXML
+	private TextField txCreateCRate;
+	@FXML
+	private Button btChemCreate;
+	@FXML
+	private Button chemPropView;
+	
 	private static Stage primaryStage;
 	private static Scene scene;
 	private static int pCount = 0;
@@ -178,12 +189,14 @@ public class MainController implements Initializable{
 	private static int paperPCount = 0;
 	private static int paperCCount = 0;
 	private static int pPropCount = 0;
+	private static int cPropCount = 0;
 	private static Stage secondary;
 	private static Stage secondary1;
 	private static Stage secondary2;
 	private static Stage secondary3;
 	private static Stage secondary4;
 	private static Stage secondary5;
+	private static Stage secondary6;
 	private ToggleGroup toggle;
 	
 	public static void share(Stage p, Scene s){
@@ -1004,6 +1017,138 @@ public class MainController implements Initializable{
 		}
 	}
 	
+	public void onClickChemCreate(){
+		if(txCreateCTCom.getText().isEmpty() || txCreateCMCom.getText().isEmpty() || txCreateCRate.getText().isEmpty()){
+			DialogueBox.warning("Fill the required field!");
+		}
+		else if(!(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", txCreateCTCom.getText())) || 
+				!(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", txCreateCMCom.getText())) ||
+				!(Pattern.matches("[\\d\\.]+", txCreateCRate.getText()))){
+			DialogueBox.warning("Invalid input detected!");
+		}
+		else{
+			Task<Void> task = new Task<Void>(){
+				@Override
+                protected Void call() throws Exception {
+					Platform.runLater(()->{
+						try{
+							ChemicalProperty prop = new ChemicalProperty(txCreateCTCom.getText(), txCreateCMCom.getText(), 
+									Double.parseDouble(txCreateCRate.getText()));
+							prop.entryProperty();
+						}catch(Exception e){
+							DialogueBox.error(e);
+						}
+					});
+					return null;
+				}
+			};
+			Thread t = new Thread(task);
+			t.start();
+			while(t.isAlive()){
+				loading();
+			}
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		}
+	}
+	
+	public void onClickChemRecords() throws IOException{
+		if(cPropCount < 1){
+			secondary6 = new Stage();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("ChemicalProperty.fxml"));
+			Parent root = (Parent)loader.load();
+			ChemicalPropController controller = (ChemicalPropController) loader.getController();
+			Scene s = new Scene(root,504,490);
+			s.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			secondary6.setScene(s);
+			secondary6.resizableProperty().set(false);
+			ChemicalPropController.share(secondary6, s);
+			secondary6.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			    @Override 
+			    public void handle(WindowEvent t) {
+			    	secondary6.close();
+			    	cPropCount = 0;
+			    }
+			});
+			controller.onClickRefresh();
+			secondary6.show();
+			cPropCount++;
+		}
+		else{
+			if(secondary6 != null){
+				secondary6.requestFocus();
+			}
+		}
+	}
+
+	public void initChemCombo(ComboBox<String> tCompany, ComboBox<String> mfgCompany){
+		Task<Void> task = new Task<Void>(){
+			@Override
+			protected Void call() throws Exception {
+				Platform.runLater(()->{
+					Database data = null;
+					try{
+						ObservableList<String> tCom = FXCollections.observableArrayList();
+						ObservableList<String> mfgCom = FXCollections.observableArrayList();
+						data = new Database();
+						ResultSet rs = data.query("Select distinct trading_company from chemical_property");
+						while(rs.next()){
+							tCom.add(rs.getString(1));
+						}
+						if(tCom.isEmpty()){
+							tCom.add("None");
+						}
+						tCompany.setItems(tCom);
+						tCompany.setOnAction((event)->{
+							if(tCompany.getSelectionModel().getSelectedItem().toString().contains("None")){
+								mfgCom.removeAll(mfgCom);
+								mfgCom.add("None");
+							}
+							else{
+								mfgCom.removeAll(mfgCom);
+								Database dat = new Database();
+								ResultSet rs1 = dat.query("select distinct type from chemical_property where trading_company = ?",
+										tCompany.getSelectionModel().getSelectedItem().toString());
+								try {
+									while(rs1.next()){
+										mfgCom.add(rs1.getString(1));
+									}
+									if(mfgCom.isEmpty()){
+										mfgCom.removeAll(mfgCom);
+										mfgCom.add("None");
+									}
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									DialogueBox.error(e);
+								} finally{
+									dat.close();
+									try {
+										rs1.close();
+									} catch (SQLException e) {
+										// TODO Auto-generated catch block
+										DialogueBox.error(e);
+									}
+								}
+							}
+							mfgCompany.setItems(mfgCom);
+							try {
+								rs.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								DialogueBox.error(e);
+							}
+						});
+					}catch(Exception e){
+						DialogueBox.error(e);
+					}
+				});
+				return null;
+			}
+		};
+		Thread t = new Thread(task);
+		t.start();
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		datePickerFormatter("dd/MM/YY", sDate);
@@ -1042,6 +1187,9 @@ public class MainController implements Initializable{
 		});
 		
 		this.paperRate.setEditable(false);
+		this.sRate.setEditable(false);
+
+		//this.initChemCombo();
 	}
 	
 }

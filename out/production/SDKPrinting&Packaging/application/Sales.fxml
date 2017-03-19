@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SalesController">
+   <children>
+      <Pane prefHeight="560.0" prefWidth="1077.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Sales Records :">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tblSales" editable="true" layoutX="10.0" layoutY="65.0" prefHeight="408.0" prefWidth="1057.0" tableMenuButtonVisible="true">
+              <columns>
+                <TableColumn fx:id="colSid" prefWidth="46.0" text="SID" />
+                <TableColumn fx:id="colDate" prefWidth="61.0" text="Date" />
+                  <TableColumn fx:id="colChallanNo" prefWidth="92.0" text="Challan No." />
+                  <TableColumn fx:id="colPoNo" prefWidth="91.0" text="PO No." />
+                  <TableColumn fx:id="colVatNo" prefWidth="88.0" text="VAT No." />
+                  <TableColumn fx:id="colBillNo" prefWidth="86.0" text="Bill No." />
+                  <TableColumn fx:id="colCompanyName" prefWidth="132.0" text="Company Name" />
+                  <TableColumn fx:id="colProductName" prefWidth="132.0" text="Product Name" />
+                  <TableColumn fx:id="colQty" prefWidth="66.0" text="Qty" />
+                  <TableColumn fx:id="colRate" prefWidth="77.0" text="Amount" />
+                  <TableColumn fx:id="colVatAmnt" prefWidth="88.0" text="VAT Amount" />
+                  <TableColumn fx:id="colAitAmnt" prefWidth="95.0" text="AIT Amount" />
+              </columns>
+            </TableView>
+            <Button fx:id="btSaleRefresh" layoutX="1000.0" layoutY="521.0" mnemonicParsing="false" onAction="#onClickRefresh" prefHeight="25.0" prefWidth="65.0" text="Refresh" />
+            <Button fx:id="btSaleEdit" layoutX="927.0" layoutY="521.0" mnemonicParsing="false" onAction="#onClickEdit" prefHeight="25.0" prefWidth="65.0" text="Edit" />
+            <Button fx:id="btSaleDel" layoutX="853.0" layoutY="521.0" mnemonicParsing="false" onAction="#onClickDel" prefHeight="25.0" prefWidth="65.0" text="Delete" />
+            <TextField fx:id="txSaleSearch" layoutX="828.0" layoutY="27.0" prefHeight="25.0" prefWidth="160.0" promptText="Enter a keyword" />
+            <Button fx:id="btSaleSearch" layoutX="1002.0" layoutY="27.0" mnemonicParsing="false" onAction="#onClickSearch" prefHeight="25.0" prefWidth="65.0" text="Search" />
+            <DatePicker fx:id="dpSaleStart" editable="false" layoutX="403.0" layoutY="27.0" promptText="Start Date" />
+            <DatePicker fx:id="dpSaleEnd" editable="false" layoutX="611.0" layoutY="27.0" promptText="End Date" />
+            <Label layoutX="588.0" layoutY="31.0" text="To" />
+            <Label layoutX="323.0" layoutY="31.0" text="Date Range :" />
+            <TextField fx:id="txSaleTotal" alignment="CENTER_RIGHT" editable="false" layoutX="853.0" layoutY="481.0" prefHeight="25.0" prefWidth="214.0" promptText="Total">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </TextField>
+         </children>
+      </Pane>
+   </children>
+</StackPane>
