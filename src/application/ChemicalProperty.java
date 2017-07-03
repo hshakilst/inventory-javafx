@@ -1,19 +1,25 @@
 package application;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class ChemicalProperty {
 	private int id;
+	private String profileName;
 	private String tradingCompany;
 	private String mfgCompany;
 	private double rate;
 	
-	public ChemicalProperty(int id, String tradingCompany, String mfgCompany, double rate) {
+	public ChemicalProperty(int id, String profileName,  String tradingCompany, String mfgCompany, double rate) {
 		this.id = id;
+		this.setProfileName(profileName);
 		this.tradingCompany = tradingCompany;
 		this.mfgCompany = mfgCompany;
 		this.rate = rate;
 	}
 	
-	public ChemicalProperty(String tradingCompany, String mfgCompany, double rate) {
+	public ChemicalProperty(String profileName, String tradingCompany, String mfgCompany, double rate) {
+		this.setProfileName(profileName);
 		this.tradingCompany = tradingCompany;
 		this.mfgCompany = mfgCompany;
 		this.rate = rate;
@@ -51,10 +57,17 @@ public class ChemicalProperty {
 		this.rate = rate;
 	}
 	
-	public void entryProperty(){
+	public void entryProperty() throws SQLException {
 		Database data = new Database();
-		data.update("insert into chemical_property (trading_company, mfg_company, weight, rate) values (?, ?, ?, ?)",
-				this.getTradingCompany(), this.getMfgCompany(), 0.0d, this.getRate());
+		ResultSet rs = data.query("select exists (select 1 from chemical_property where profile_name = ?)", this.getProfileName());
+		rs.next();
+		if (!(rs.getInt(1) == 1)){
+			data.update("insert into chemical_property (profile_name, trading_company, mfg_company, weight, rate) values (?, ?, ?, ?, ?)",
+					this.getProfileName(), this.getTradingCompany(), this.getMfgCompany(), 0.0d, this.getRate());
+		}
+		else{
+			DialogueBox.warning("Profile name already exists!");
+		}
 		data.close();
 	}
 	
@@ -68,5 +81,13 @@ public class ChemicalProperty {
 		 Database data = new Database();
 		 data.update("Delete from chemical_property where id=?",id);
 		 data.close();
+	}
+
+	public String getProfileName() {
+		return profileName;
+	}
+
+	public void setProfileName(String profileName) {
+		this.profileName = profileName;
 	}
 }

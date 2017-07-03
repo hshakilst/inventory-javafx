@@ -138,7 +138,7 @@ public class PaperConsumption {
 
 	public void deleteConsume(int id){
 		 Database data = new Database();
-		 data.update("Delete from paper_consumption sales where id = ?",id);
+		 data.update("Delete from paper_consumption where id = ?",id);
 		 data.close();
 	}
 }

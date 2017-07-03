@@ -12,30 +12,23 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 
 
@@ -55,10 +48,10 @@ public class MainController implements Initializable{
 	private TextField pULiner;
 	@FXML
 	private TextField pRate;
-	@FXML
-	private Button pCreate;
-	@FXML
-	private Button pRecords;
+//	@FXML
+//	private Button pCreate;
+//	@FXML
+//	private Button pRecords;
 	
 	//Sales variables
 	@FXML
@@ -87,10 +80,10 @@ public class MainController implements Initializable{
 	private TextField sVAmount;
 	@FXML
 	private TextField sAAmount;
-	@FXML
-	private Button sSubmit;
-	@FXML
-	private Button sRecords;
+//	@FXML
+//	private Button sSubmit;
+//	@FXML
+//	private Button sRecords;
 	
 	//payment members
 	@FXML
@@ -107,10 +100,10 @@ public class MainController implements Initializable{
 	private TextField payAmount;
 	@FXML
 	private TextField payCheque;
-	@FXML
-	private Button paySubmit;
-	@FXML
-	private Button payRecords;
+//	@FXML
+//	private Button paySubmit;
+//	@FXML
+//	private Button payRecords;
 	
 	//paper variables
 	@FXML
@@ -131,10 +124,10 @@ public class MainController implements Initializable{
 	private ComboBox<String> paperType;
 	@FXML
 	private ComboBox<String> paperMill;
-	@FXML
-	private Button paperSubmit;
-	@FXML
-	private Button paperPRecords;
+//	@FXML
+//	private Button paperSubmit;
+//	@FXML
+//	private Button paperPRecords;
 	
 	@FXML
 	private ComboBox<String> paperCTCompany;
@@ -150,10 +143,10 @@ public class MainController implements Initializable{
 	private ComboBox<String> paperCType;
 	@FXML
 	private ComboBox<String> paperCMill;
-	@FXML
-	private Button paperCSubmit;
-	@FXML
-	private Button paperCRecords;
+//	@FXML
+//	private Button paperCSubmit;
+//	@FXML
+//	private Button paperCRecords;
 	
 	@FXML
 	private TextField txCreateTCompany;
@@ -165,22 +158,55 @@ public class MainController implements Initializable{
 	private TextField txCreatePSize;
 	@FXML
 	private TextField txCreatePRate;
+//	@FXML
+//	private Button btCreatePaper;
+//	@FXML
+//	private Button btPProperty;
+
+	//Chemical variables
 	@FXML
-	private Button btCreatePaper;
-	@FXML
-	private Button btPProperty;
-	
+	private TextField txCreateCProfile;
 	@FXML
 	private TextField txCreateCTCom;
 	@FXML
 	private TextField txCreateCMCom;
 	@FXML
 	private TextField txCreateCRate;
+//	@FXML
+//	private Button btChemCreate;
+//	@FXML
+//	private Button chemPropView;
+
 	@FXML
-	private Button btChemCreate;
+	private ComboBox<String> chemPProfile;
 	@FXML
-	private Button chemPropView;
-	
+	private TextField chemPTCom;
+	@FXML
+	private DatePicker chemPDate;
+	@FXML
+	private TextField chemPChallan;
+	@FXML
+	private TextField chemPMfgCom;
+	@FXML
+	private TextField chemPWeight;
+	@FXML
+	private TextField chemPCost;
+	@FXML
+	private TextField chemPTCost;
+
+    @FXML
+    private ComboBox<String> chemCProfile;
+	@FXML
+    private TextField chemCTCom;
+    @FXML
+    private DatePicker chemCDate;
+    @FXML
+    private TextField chemCChallan;
+    @FXML
+    private TextField chemCMfgCom;
+    @FXML
+    private TextField chemCWeight;
+
 	private static Stage primaryStage;
 	private static Scene scene;
 	private static int pCount = 0;
@@ -188,8 +214,10 @@ public class MainController implements Initializable{
 	private static int payCount = 0;
 	private static int paperPCount = 0;
 	private static int paperCCount = 0;
-	private static int pPropCount = 0;
-	private static int cPropCount = 0;
+	private static int paperPropCount = 0;
+	private static int chemPropCount = 0;
+	private static int chemPCount = 0;
+	private static int chemCCount = 0;
 	private static Stage secondary;
 	private static Stage secondary1;
 	private static Stage secondary2;
@@ -197,22 +225,24 @@ public class MainController implements Initializable{
 	private static Stage secondary4;
 	private static Stage secondary5;
 	private static Stage secondary6;
+	private static Stage secondary7;
+	private static Stage secondary8;
 	private ToggleGroup toggle;
 	
-	public static void share(Stage p, Scene s){
+	static void share(Stage p, Scene s){
 		primaryStage = p;
 		scene = s;
 		
 	}
 	
-	public void datePickerFormatter(String pattern, DatePicker date){
+	private void datePickerFormatter(DatePicker date){
 		Task<Void> task = new Task<Void>(){
 			@Override
             protected Void call() throws Exception {
 				Platform.runLater(()->{
 					try{
 						date.setConverter(new StringConverter<LocalDate>() {
-						     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+						     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/YY");
 
 						     @Override 
 						     public String toString(LocalDate date) {
@@ -243,7 +273,7 @@ public class MainController implements Initializable{
 		t.start();
 	}
 	
-	public void loading(){
+	private void loading(){
 		final VBox bx = new VBox();
 	    bx.setAlignment(Pos.CENTER);
 	    ProgressIndicator pi = new ProgressIndicator();
@@ -254,17 +284,19 @@ public class MainController implements Initializable{
 	    primaryStage.show();
 	}
 	
-	public void onClickPCreate(ActionEvent evt){
+	public void onClickPCreate(){
 		if(pComName.getText().isEmpty() || pItemName.getText().isEmpty() || pUPin.getText().isEmpty() ||
 				pUPrint.getText().isEmpty() || pUMedia.getText().isEmpty() || pULiner.getText().isEmpty() ||
 				pRate.getText().isEmpty() ){
 			DialogueBox.warning("Please fill all the required fields!");
 		}
-		else if(!(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/]+", pComName.getText())) || 
-				!(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/]+", pItemName.getText())) || 
-				!(Pattern.matches("[\\d\\.]+", pUPin.getText())) || !(Pattern.matches("[\\d\\.]+", pUPrint.getText())) || 
-				!(Pattern.matches("[\\d\\.]+", pUMedia.getText())) || !(Pattern.matches("[\\d\\.]+", pULiner.getText())) ||
-				!(Pattern.matches("[\\d\\.]+", pRate.getText()))){
+		else if(!(Pattern.matches("[\\w.,\\s()/]+", pComName.getText())) ||
+				!(Pattern.matches("[\\w.,\\s()/]+", pItemName.getText())) ||
+				!(Pattern.matches("[\\d.]+", pUPin.getText())) ||
+                !(Pattern.matches("[\\d.]+", pUPrint.getText())) ||
+				!(Pattern.matches("[\\d.]+", pUMedia.getText())) ||
+                !(Pattern.matches("[\\d.]+", pULiner.getText())) ||
+				!(Pattern.matches("[\\d.]+", pRate.getText()))){
 			DialogueBox.warning("Invalid input detected!");
 		}
 		else{
@@ -273,7 +305,8 @@ public class MainController implements Initializable{
                 protected Void call() throws Exception {
 					Platform.runLater(()->{
 						try{
-							Products product = new Products(pComName.getText(), pItemName.getText(), Double.parseDouble(pUPin.getText()),
+							Products product = new Products(
+							        pComName.getText(), pItemName.getText(), Double.parseDouble(pUPin.getText()),
 									Double.parseDouble(pUPrint.getText()), Double.parseDouble(pUMedia.getText()),
 									Double.parseDouble(pULiner.getText()), Double.parseDouble(pRate.getText()));
 							product.createProduct();
@@ -296,24 +329,21 @@ public class MainController implements Initializable{
 		this.initPayCombo();
 	}
 	
-	public void onClickPRecords(ActionEvent evt) throws IOException{
+	public void onClickPRecords() throws IOException{
 		if(pCount < 1){
 			secondary = new Stage();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/Products.fxml"));
-			Parent root = (Parent)loader.load();
-			ProductsController controller = (ProductsController)loader.getController();
+			Parent root = loader.load();
+			ProductsController controller = loader.getController();
 			Scene s = new Scene(root,893,490);
 			s.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			secondary.setScene(s);
 			secondary.resizableProperty().set(false);
 			ProductsController.share(secondary, s);
-			secondary.setOnCloseRequest(new EventHandler<WindowEvent>() {
-			    @Override 
-			    public void handle(WindowEvent t) {
-			    	secondary.close();
-			    	pCount = 0;
-			    }
-			});
+			secondary.setOnCloseRequest(t -> {
+                secondary.close();
+                pCount = 0;
+            });
 			controller.onClickRefresh();
 			secondary.show();
 			pCount++;
@@ -334,9 +364,9 @@ public class MainController implements Initializable{
 				sVAmount.getText().isEmpty() || sAAmount.getText().isEmpty()){
 			DialogueBox.warning("Please fill all the required fields!");
 		}
-		else if(!(Pattern.matches("[\\d]+", sChallan.getText())) || !(Pattern.matches("[\\d]+", sPo.getText())) || 
+		else if(!(Pattern.matches("[\\d]+", sChallan.getText())) || !(Pattern.matches("[\\d]+", sPo.getText())) ||
 				!(Pattern.matches("[\\d]+", sVat.getText())) || !(Pattern.matches("[\\d]+", sBill.getText())) ||
-				!(Pattern.matches("[\\d]+", sQty.getText())) || !(Pattern.matches("[\\d\\.]+", sRate.getText()))){
+				!(Pattern.matches("[\\d]+", sQty.getText())) || !(Pattern.matches("[\\d.]+", sRate.getText()))){
 			DialogueBox.warning("Invalid input detected!");
 		}
 		else{
@@ -347,10 +377,11 @@ public class MainController implements Initializable{
 						try{
 							LocalDate date = sDate.getValue();
 							DateTimeFormatter f = DateTimeFormatter.ofPattern("YYYY-MM-dd");
-							Sales sales = new Sales(date.format(f), Long.parseLong(sChallan.getText()), Long.parseLong(sPo.getText()), 
-									Long.parseLong(sVat.getText()), Long.parseLong(sBill.getText()), 
-									sCompany.getSelectionModel().getSelectedItem().toString(), 
-									sItem.getSelectionModel().getSelectedItem().toString(), Integer.parseInt(sQty.getText()),
+							Sales sales = new Sales(date.format(f), Long.parseLong(sChallan.getText()),
+                                    Long.parseLong(sPo.getText()),
+									Long.parseLong(sVat.getText()), Long.parseLong(sBill.getText()),
+                                    sCompany.getSelectionModel().getSelectedItem(),
+                                    sItem.getSelectionModel().getSelectedItem(), Integer.parseInt(sQty.getText()),
 									Double.parseDouble(sRate.getText()),
 									Double.parseDouble(sVAmount.getText()), Double.parseDouble(sAAmount.getText()));
 							sales.salesEntry();
@@ -371,7 +402,7 @@ public class MainController implements Initializable{
 		}
 	}
 	
-	public void initSalesCombo(){
+	private void initSalesCombo(){
 		Task<Void> task = new Task<Void>(){
 			@Override
             protected Void call() throws Exception {
@@ -390,21 +421,21 @@ public class MainController implements Initializable{
 						}
 						sCompany.setItems(company);
 						sCompany.setOnAction((event)->{
-							if(sCompany.getSelectionModel().getSelectedItem().toString().contains("None")){
-								item.removeAll(item);
+							if(sCompany.getSelectionModel().getSelectedItem().contains("None")){
+								item.removeAll();
 								item.add("None");
 							}
 							else{
-								item.removeAll(item);
+								item.removeAll();
 								Database dat = new Database();
 								ResultSet rs1 = dat.query("select distinct item_name from products where company_name = ?",
-										sCompany.getSelectionModel().getSelectedItem().toString());
+                                        sCompany.getSelectionModel().getSelectedItem());
 								try {
 									while(rs1.next()){
 										item.add(rs1.getString(1));
 									}
 									if(item.isEmpty()){
-										item.removeAll(item);
+										item.removeAll();
 										item.add("None");
 									}
 								} catch (SQLException e) {
@@ -436,14 +467,13 @@ public class MainController implements Initializable{
 							}
 							else{
 								Database db = new Database();
-								ResultSet rs2 = db.query("select rate from products where company_name = ? and item_name = ? ", 
-										sCompany.getSelectionModel().getSelectedItem().toString(), 
-										sItem.getSelectionModel().getSelectedItem().toString());
+								ResultSet rs2 = db.query("select rate from products where company_name = ? and item_name = ? ",
+                                        sCompany.getSelectionModel().getSelectedItem(),
+                                        sItem.getSelectionModel().getSelectedItem());
 								double rate = 0.0;
 								try {
 									while(rs2.next()){
 										rate = rs2.getDouble(1);
-										System.out.println(1);
 									}
 									sRate.setText(String.valueOf(rate*Double.parseDouble(sQty.getText())));
 								} catch (SQLException e) {
@@ -463,8 +493,10 @@ public class MainController implements Initializable{
 					}catch(Exception e){
 						DialogueBox.error(e);
 					}
-					data.close();
-				});
+                    if (data != null) {
+                        data.close();
+                    }
+                });
 				return null;
 			}
 		};
@@ -476,20 +508,17 @@ public class MainController implements Initializable{
 		if(sCount < 1){
 			secondary1 = new Stage();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Sales.fxml"));
-			Parent root = (Parent)loader.load();
-			SalesController controller = (SalesController)loader.getController();
+			Parent root = loader.load();
+			SalesController controller = loader.getController();
 			Scene s = new Scene(root,1077,560);
 			s.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			secondary1.setScene(s);
 			secondary1.resizableProperty().set(false);
 			SalesController.share(secondary1, s);
-			secondary1.setOnCloseRequest(new EventHandler<WindowEvent>() {
-			    @Override 
-			    public void handle(WindowEvent t) {
-			    	secondary1.close();
-			    	sCount = 0;
-			    }
-			});
+			secondary1.setOnCloseRequest(t -> {
+                secondary1.close();
+                sCount = 0;
+            });
 			controller.onClickRefresh();
 			secondary1.show();
 			sCount++;
@@ -501,7 +530,7 @@ public class MainController implements Initializable{
 		}
 	}
 	
-	public void initPayCombo(){
+	private void initPayCombo(){
 		Task<Void> task = new Task<Void>(){
 			@Override
             protected Void call() throws Exception {
@@ -525,20 +554,22 @@ public class MainController implements Initializable{
 		t.start();
 	}
 	
-	public void initPayTextField(){
+	private void initPayTextField(){
 		Task<Void> task = new Task<Void>(){
 			@Override
             protected Void call() throws Exception {
 				Platform.runLater(()->{
 					try{
 						Database data = new Database();
-						ResultSet rs = data.query("Select bill_no, po_no from sales where company = ? and challan_no = ?", 
-								payCompany.getSelectionModel().getSelectedItem().toString(), Long.parseLong(payChallan.getText()));
+						ResultSet rs = data.query("Select bill_no, po_no from sales where company = ? and challan_no = ?",
+                                payCompany.getSelectionModel().getSelectedItem(), Long.parseLong(payChallan.getText()));
 						while(rs.next()){
 							payBill.setText(String.valueOf(rs.getLong(1)));
 							payPo.setText(String.valueOf(rs.getLong(2)));
 						}
-					}catch(Exception e){
+                        rs.close();
+                        data.close();
+                    }catch(Exception e){
 						DialogueBox.error(e);
 					}
 				});
@@ -556,8 +587,8 @@ public class MainController implements Initializable{
 			DialogueBox.warning("Please fill all the required fields!");
 		}
 		else if(!(Pattern.matches("[\\d]+", payChallan.getText())) || !(Pattern.matches("[\\d]+", payBill.getText())) || 
-				!(Pattern.matches("[\\d]+", payPo.getText())) || !(Pattern.matches("[\\d\\.]+", payAmount.getText())) ||
-				!(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", payCheque.getText()))){
+				!(Pattern.matches("[\\d]+", payPo.getText())) || !(Pattern.matches("[\\d.]+", payAmount.getText())) ||
+				!(Pattern.matches("[\\w.,\\s()/\\-]+", payCheque.getText()))){
 			DialogueBox.warning("Invalid input detected!");
 		}
 		else{
@@ -568,8 +599,10 @@ public class MainController implements Initializable{
 						try{
 							LocalDate date = payDate.getValue();
 							DateTimeFormatter f = DateTimeFormatter.ofPattern("YYYY-MM-dd");
-							Payment pay = new Payment(date.format(f), payCompany.getSelectionModel().getSelectedItem().toString(), 
-									Long.parseLong(payChallan.getText()), Long.parseLong(payBill.getText()), Long.parseLong(payPo.getText()), 
+							Payment pay = new Payment(
+							        date.format(f), payCompany.getSelectionModel().getSelectedItem(),
+									Long.parseLong(payChallan.getText()),
+                                    Long.parseLong(payBill.getText()), Long.parseLong(payPo.getText()),
 									Double.parseDouble(payAmount.getText()), payCheque.getText());
 							pay.payEntry();
 						}catch(Exception e){
@@ -593,20 +626,17 @@ public class MainController implements Initializable{
 		if(payCount < 1){
 			secondary2 = new Stage();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Payment.fxml"));
-			Parent root = (Parent)loader.load();
-			PaymentController controller = (PaymentController)loader.getController();
+			Parent root = loader.load();
+			PaymentController controller = loader.getController();
 			Scene s = new Scene(root,893,526);
 			s.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			secondary2.setScene(s);
 			secondary2.resizableProperty().set(false);
 			PaymentController.share(secondary2, s);
-			secondary2.setOnCloseRequest(new EventHandler<WindowEvent>() {
-			    @Override 
-			    public void handle(WindowEvent t) {
-			    	secondary2.close();
-			    	payCount = 0;
-			    }
-			});
+			secondary2.setOnCloseRequest(t -> {
+                secondary2.close();
+                payCount = 0;
+            });
 			controller.onClickRefresh();
 			secondary2.show();
 			payCount++;
@@ -623,11 +653,11 @@ public class MainController implements Initializable{
 				|| txCreatePSize.getText().isEmpty() || txCreatePRate.getText().isEmpty()){
 			DialogueBox.warning("Fill the required field!");
 		}
-		else if(!(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", txCreateTCompany.getText())) || 
-				!(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", txCreatePType.getText())) || 
-				!(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", txCreatePMill.getText())) ||
-				!(Pattern.matches("[\\d\\.]+", txCreatePSize.getText())) || 
-				!(Pattern.matches("[\\d\\.]+", txCreatePRate.getText()))){
+		else if(!(Pattern.matches("[\\w.,\\s()/\\-]+", txCreateTCompany.getText())) ||
+				!(Pattern.matches("[\\w.,\\s()/\\-]+", txCreatePType.getText())) ||
+				!(Pattern.matches("[\\w.,\\s()/\\-]+", txCreatePMill.getText())) ||
+				!(Pattern.matches("[\\d.]+", txCreatePSize.getText())) ||
+				!(Pattern.matches("[\\d.]+", txCreatePRate.getText()))){
 			DialogueBox.warning("Invalid input detected!");
 		}
 		else{
@@ -636,7 +666,8 @@ public class MainController implements Initializable{
                 protected Void call() throws Exception {
 					Platform.runLater(()->{
 						try{
-							PaperProperty prop = new PaperProperty(txCreateTCompany.getText(), txCreatePType.getText(), txCreatePMill.getText(), 
+							PaperProperty prop = new PaperProperty(
+							        txCreateTCompany.getText(), txCreatePType.getText(), txCreatePMill.getText(),
 									Double.parseDouble(txCreatePSize.getText()), Double.parseDouble(txCreatePRate.getText()));
 							prop.entryProperty();
 						}catch(Exception e){
@@ -659,14 +690,19 @@ public class MainController implements Initializable{
 	}
 	
 	public void onClickPPurchase(){
-		if(paperTCompany.getSelectionModel().getSelectedItem() == null || paperDate.getValue() == null || paperChallan.getText().isEmpty() ||
-				paperType.getSelectionModel().getSelectedItem() == null || paperMill.getSelectionModel().getSelectedItem() == null || 
-				paperSize.getSelectionModel().getSelectedItem() == null || paperWeight.getText().isEmpty() || paperRate.getText().isEmpty() || 
+		if(paperTCompany.getSelectionModel().getSelectedItem() == null ||
+                paperDate.getValue() == null || paperChallan.getText().isEmpty() ||
+				paperType.getSelectionModel().getSelectedItem() == null ||
+                paperMill.getSelectionModel().getSelectedItem() == null ||
+				paperSize.getSelectionModel().getSelectedItem() == null ||
+                paperWeight.getText().isEmpty() || paperRate.getText().isEmpty() ||
 				paperTCost.getText().isEmpty()){
 			DialogueBox.warning("Fill the required field!");
 		}
-		else if(!(Pattern.matches("[\\d]+", paperChallan.getText())) || !(Pattern.matches("[\\d\\.]+", paperWeight.getText())) || 
-				!(Pattern.matches("[\\d\\.]+", paperRate.getText())) || !(Pattern.matches("[\\d\\.]+", paperTCost.getText()))){
+		else if(!(Pattern.matches("[\\d]+", paperChallan.getText())) ||
+                !(Pattern.matches("[\\d.]+", paperWeight.getText())) ||
+				!(Pattern.matches("[\\d.]+", paperRate.getText())) ||
+                !(Pattern.matches("[\\d.]+", paperTCost.getText()))){
 			DialogueBox.warning("Invalid input detected!");
 		}
 		else{
@@ -677,9 +713,11 @@ public class MainController implements Initializable{
 						try{
 							LocalDate date = paperDate.getValue();
 							DateTimeFormatter f = DateTimeFormatter.ofPattern("YYYY-MM-dd");
-							PaperPurchase paper = new PaperPurchase(paperTCompany.getSelectionModel().getSelectedItem().toString(), date.format(f), 
-									Long.parseLong(paperChallan.getText()), paperType.getSelectionModel().getSelectedItem().toString(),
-									paperMill.getSelectionModel().getSelectedItem().toString(), 
+							PaperPurchase paper = new PaperPurchase(
+                                    paperTCompany.getSelectionModel().getSelectedItem(), date.format(f),
+									Long.parseLong(paperChallan.getText()),
+                                    paperType.getSelectionModel().getSelectedItem(),
+                                    paperMill.getSelectionModel().getSelectedItem(),
 									Double.parseDouble(paperSize.getSelectionModel().getSelectedItem().toString()), 
 									Double.parseDouble(paperWeight.getText()), Double.parseDouble(paperRate.getText()), 
 									Double.parseDouble(paperTCost.getText()));
@@ -702,12 +740,15 @@ public class MainController implements Initializable{
 	}
 	
 	public void onClickPConsume(){
-		if(paperCTCompany.getSelectionModel().getSelectedItem() == null || paperCDate.getValue() == null || paperCChallan.getText().isEmpty() ||
-				paperCType.getSelectionModel().getSelectedItem() == null || paperCMill.getSelectionModel().getSelectedItem() == null || 
-				paperCSize.getSelectionModel().getSelectedItem() == null || paperCWeight.getText().isEmpty()){
+		if(paperCTCompany.getSelectionModel().getSelectedItem() == null || paperCDate.getValue() == null ||
+                paperCChallan.getText().isEmpty() || paperCType.getSelectionModel().getSelectedItem() == null ||
+                paperCMill.getSelectionModel().getSelectedItem() == null ||
+                paperCSize.getSelectionModel().getSelectedItem() == null ||
+                paperCWeight.getText().isEmpty()){
 			DialogueBox.warning("Fill the required field!");
 		}
-		else if(!(Pattern.matches("[\\d]+", paperCChallan.getText())) || !(Pattern.matches("[\\d\\.]+", paperCWeight.getText()))){
+		else if(!(Pattern.matches("[\\d]+", paperCChallan.getText())) ||
+                !(Pattern.matches("[\\d.]+", paperCWeight.getText()))){
 			DialogueBox.warning("Invalid input detected!");
 		}
 		else{
@@ -718,9 +759,12 @@ public class MainController implements Initializable{
 						try{
 							LocalDate date = paperCDate.getValue();
 							DateTimeFormatter f = DateTimeFormatter.ofPattern("YYYY-MM-dd");
-							PaperConsumption paper = new PaperConsumption(paperCTCompany.getSelectionModel().getSelectedItem().toString(), date.format(f), 
-									Long.parseLong(paperCChallan.getText()), paperCType.getSelectionModel().getSelectedItem().toString(),
-									paperCMill.getSelectionModel().getSelectedItem().toString(), 
+							PaperConsumption paper = new PaperConsumption(
+                                    paperCTCompany.getSelectionModel().getSelectedItem(),
+                                    date.format(f),
+									Long.parseLong(paperCChallan.getText()),
+                                    paperCType.getSelectionModel().getSelectedItem(),
+                                    paperCMill.getSelectionModel().getSelectedItem(),
 									Double.parseDouble(paperCSize.getSelectionModel().getSelectedItem().toString()), 
 									Double.parseDouble(paperCWeight.getText()));
 							paper.entryConsume();
@@ -741,8 +785,8 @@ public class MainController implements Initializable{
 		}
 	}
 	
-	public void initPaperCombo(ComboBox<String> paperTCompany, ComboBox<String> paperType, 
-			ComboBox<String> paperMill, ComboBox<Double> paperSize){
+	private void initPaperCombo(ComboBox<String> paperTCompany, ComboBox<String> paperType,
+                                ComboBox<String> paperMill, ComboBox<Double> paperSize){
 		Task<Void> task = new Task<Void>(){
 			@Override
             protected Void call() throws Exception {
@@ -763,21 +807,21 @@ public class MainController implements Initializable{
 						}
 						paperTCompany.setItems(company);
 						paperTCompany.setOnAction((event)->{
-							if(paperTCompany.getSelectionModel().getSelectedItem().toString().contains("None")){
-								type.removeAll(type);
+							if(paperTCompany.getSelectionModel().getSelectedItem().contains("None")){
+								type.removeAll();
 								type.add("None");
 							}
 							else{
-								type.removeAll(type);
+								type.removeAll();
 								Database dat = new Database();
 								ResultSet rs1 = dat.query("select distinct type from paper_property where trading_company = ?",
-										paperTCompany.getSelectionModel().getSelectedItem().toString());
+                                        paperTCompany.getSelectionModel().getSelectedItem());
 								try {
 									while(rs1.next()){
 										type.add(rs1.getString(1));
 									}
 									if(type.isEmpty()){
-										type.removeAll(type);
+										type.removeAll();
 										type.add("None");
 									}
 								} catch (SQLException e) {
@@ -802,22 +846,23 @@ public class MainController implements Initializable{
 							}
 						});
 						paperType.setOnAction((event) -> {
-							if(paperType.getSelectionModel().getSelectedItem().toString().contains("None")){
-								mill.removeAll(mill);
+							if(paperType.getSelectionModel().getSelectedItem().contains("None")){
+								mill.removeAll();
 								mill.add("None");
 							}
 							else{
-								mill.removeAll(mill);
+								mill.removeAll();
 								Database dat = new Database();
-								ResultSet rs1 = dat.query("select distinct mill from paper_property where trading_company = ? and type = ?",
-										paperTCompany.getSelectionModel().getSelectedItem().toString(), 
-										paperType.getSelectionModel().getSelectedItem().toString());
+								ResultSet rs1 = dat.query("select distinct mill from paper_property where " +
+                                                "trading_company = ? and type = ?",
+                                        paperTCompany.getSelectionModel().getSelectedItem(),
+                                        paperType.getSelectionModel().getSelectedItem());
 								try {
 									while(rs1.next()){
 										mill.add(rs1.getString(1));
 									}
 									if(mill.isEmpty()){
-										mill.removeAll(mill);
+										mill.removeAll();
 										mill.add("None");
 									}
 								} catch (SQLException e) {
@@ -842,23 +887,24 @@ public class MainController implements Initializable{
 							}
 						});
 						paperMill.setOnAction((event) -> {
-							if(paperMill.getSelectionModel().getSelectedItem().toString().contains("None")){
-								size.removeAll(size);
+							if(paperMill.getSelectionModel().getSelectedItem().contains("None")){
+								size.removeAll();
 								size.add(0.0);
 							}
 							else{
-								size.removeAll(size);
+								size.removeAll();
 								Database dat = new Database();
-								ResultSet rs1 = dat.query("select distinct size from paper_property where trading_company = ? and type = ? and mill = ?",
-										paperTCompany.getSelectionModel().getSelectedItem().toString(), 
-										paperType.getSelectionModel().getSelectedItem().toString(),
-										paperMill.getSelectionModel().getSelectedItem().toString());
+								ResultSet rs1 = dat.query("select distinct size from paper_property where " +
+                                                "trading_company = ? and type = ? and mill = ?",
+                                        paperTCompany.getSelectionModel().getSelectedItem(),
+                                        paperType.getSelectionModel().getSelectedItem(),
+                                        paperMill.getSelectionModel().getSelectedItem());
 								try {
 									while(rs1.next()){
 										size.add(rs1.getDouble(1));
 									}
 									if(size.isEmpty()){
-										size.removeAll(size);
+										size.removeAll();
 										size.add(0.0);
 									}
 								} catch (SQLException e) {
@@ -887,21 +933,22 @@ public class MainController implements Initializable{
 									paperType.getSelectionModel().getSelectedItem() == null ||
 									paperMill.getSelectionModel().getSelectedItem() == null ||
 									paperSize.getSelectionModel().getSelectedItem() == null ||
-									!(Pattern.matches("[\\d\\.]+", paperWeight.getText()))){
-								paperRate.setText("0.0");
+									!(Pattern.matches("[\\d.]+", paperWeight.getText()))){
+								paperRate.setText("0");
 							}
 							else{
 								Database db = new Database();
-								ResultSet rs2 = db.query("select rate from paper_property where trading_company = ? and type = ? "
-										+ "and mill = ? and size = ?", paperTCompany.getSelectionModel().getSelectedItem().toString(), 
-										paperType.getSelectionModel().getSelectedItem().toString(), 
-										paperMill.getSelectionModel().getSelectedItem().toString(),
+								ResultSet rs2 = db.query("select rate from paper_property where " +
+                                                "trading_company = ? and type = ? "
+										+ "and mill = ? and size = ?",
+                                        paperTCompany.getSelectionModel().getSelectedItem(),
+                                        paperType.getSelectionModel().getSelectedItem(),
+                                        paperMill.getSelectionModel().getSelectedItem(),
 										paperSize.getSelectionModel().getSelectedItem().toString());
 								double rate = 0.0;
 								try {
 									while(rs2.next()){
 										rate = rs2.getDouble(1);
-										System.out.println(1);
 									}
 									paperRate.setText(String.valueOf(rate*Double.parseDouble(paperWeight.getText())));
 								} catch (SQLException e) {
@@ -921,8 +968,10 @@ public class MainController implements Initializable{
 					}catch(Exception e){
 						DialogueBox.error(e);
 					}
-					data.close();
-				});
+                    if (data != null) {
+                        data.close();
+                    }
+                });
 				return null;
 			}
 		};
@@ -934,20 +983,17 @@ public class MainController implements Initializable{
 		if(paperPCount < 1){
 			secondary3 = new Stage();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("PaperPurchase.fxml"));
-			Parent root = (Parent)loader.load();
-			PaperPurController controller = (PaperPurController)loader.getController();
+			Parent root = loader.load();
+			PaperPurController controller = loader.getController();
 			Scene s = new Scene(root,1077,560);
 			s.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			secondary3.setScene(s);
 			secondary3.resizableProperty().set(false);
 			PaperPurController.share(secondary3, s);
-			secondary3.setOnCloseRequest(new EventHandler<WindowEvent>() {
-			    @Override 
-			    public void handle(WindowEvent t) {
-			    	secondary3.close();
-			    	paperPCount = 0;
-			    }
-			});
+			secondary3.setOnCloseRequest(t -> {
+                secondary3.close();
+                paperPCount = 0;
+            });
 			controller.onClickRefresh();
 			secondary3.show();
 			paperPCount++;
@@ -963,20 +1009,17 @@ public class MainController implements Initializable{
 		if(paperCCount < 1){
 			secondary4 = new Stage();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("PaperConsume.fxml"));
-			Parent root = (Parent)loader.load();
-			PaperConController controller = (PaperConController)loader.getController();
+			Parent root = loader.load();
+			PaperConController controller = loader.getController();
 			Scene s = new Scene(root,879,594);
 			s.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			secondary4.setScene(s);
 			secondary4.resizableProperty().set(false);
 			PaperConController.share(secondary4, s);
-			secondary4.setOnCloseRequest(new EventHandler<WindowEvent>() {
-			    @Override 
-			    public void handle(WindowEvent t) {
-			    	secondary4.close();
-			    	paperCCount = 0;
-			    }
-			});
+			secondary4.setOnCloseRequest(t -> {
+                secondary4.close();
+                paperCCount = 0;
+            });
 			controller.onClickRefresh();
 			secondary4.show();
 			paperCCount++;
@@ -989,26 +1032,23 @@ public class MainController implements Initializable{
 	}
 	
 	public void onClickPPropRecords() throws IOException{
-		if(pPropCount < 1){
+		if(paperPropCount < 1){
 			secondary5 = new Stage();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("PaperProperty.fxml"));
-			Parent root = (Parent)loader.load();
-			PaperPropController controller = (PaperPropController)loader.getController();
+			Parent root = loader.load();
+			PaperPropController controller = loader.getController();
 			Scene s = new Scene(root,646,490);
 			s.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			secondary5.setScene(s);
 			secondary5.resizableProperty().set(false);
 			PaperPropController.share(secondary5, s);
-			secondary5.setOnCloseRequest(new EventHandler<WindowEvent>() {
-			    @Override 
-			    public void handle(WindowEvent t) {
-			    	secondary5.close();
-			    	pPropCount = 0;
-			    }
-			});
+			secondary5.setOnCloseRequest(t -> {
+                secondary5.close();
+                paperPropCount = 0;
+            });
 			controller.onClickRefresh();
 			secondary5.show();
-			pPropCount++;
+			paperPropCount++;
 		}
 		else{
 			if(secondary5 != null){
@@ -1018,12 +1058,13 @@ public class MainController implements Initializable{
 	}
 	
 	public void onClickChemCreate(){
-		if(txCreateCTCom.getText().isEmpty() || txCreateCMCom.getText().isEmpty() || txCreateCRate.getText().isEmpty()){
+		if(txCreateCProfile.getText().isEmpty() || txCreateCTCom.getText().isEmpty() || txCreateCMCom.getText().isEmpty() || txCreateCRate.getText().isEmpty()){
 			DialogueBox.warning("Fill the required field!");
 		}
-		else if(!(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", txCreateCTCom.getText())) || 
-				!(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", txCreateCMCom.getText())) ||
-				!(Pattern.matches("[\\d\\.]+", txCreateCRate.getText()))){
+		else if(!(Pattern.matches("[\\w.,\\s()/\\-]+", txCreateCProfile.getText())) ||
+				!(Pattern.matches("[\\w.,\\s()/\\-]+", txCreateCTCom.getText())) ||
+				!(Pattern.matches("[\\w.,\\s()/\\-]+", txCreateCMCom.getText())) ||
+				!(Pattern.matches("[\\d.]+", txCreateCRate.getText()))){
 			DialogueBox.warning("Invalid input detected!");
 		}
 		else{
@@ -1032,8 +1073,8 @@ public class MainController implements Initializable{
                 protected Void call() throws Exception {
 					Platform.runLater(()->{
 						try{
-							ChemicalProperty prop = new ChemicalProperty(txCreateCTCom.getText(), txCreateCMCom.getText(), 
-									Double.parseDouble(txCreateCRate.getText()));
+							ChemicalProperty prop = new ChemicalProperty(txCreateCProfile.getText(), txCreateCTCom.getText(),
+									txCreateCMCom.getText(), Double.parseDouble(txCreateCRate.getText()));
 							prop.entryProperty();
 						}catch(Exception e){
 							DialogueBox.error(e);
@@ -1050,29 +1091,28 @@ public class MainController implements Initializable{
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}
+        this.initChemCombo(this.chemPProfile, this.chemPTCom, this.chemPMfgCom);
+        this.initChemCombo(this.chemCProfile, this.chemCTCom, this.chemCMfgCom);
 	}
 	
 	public void onClickChemRecords() throws IOException{
-		if(cPropCount < 1){
+		if(chemPropCount < 1){
 			secondary6 = new Stage();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("ChemicalProperty.fxml"));
-			Parent root = (Parent)loader.load();
-			ChemicalPropController controller = (ChemicalPropController) loader.getController();
-			Scene s = new Scene(root,504,490);
+			Parent root = loader.load();
+			ChemicalPropController controller = loader.getController();
+			Scene s = new Scene(root,612,490);
 			s.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			secondary6.setScene(s);
 			secondary6.resizableProperty().set(false);
 			ChemicalPropController.share(secondary6, s);
-			secondary6.setOnCloseRequest(new EventHandler<WindowEvent>() {
-			    @Override 
-			    public void handle(WindowEvent t) {
-			    	secondary6.close();
-			    	cPropCount = 0;
-			    }
-			});
+			secondary6.setOnCloseRequest(t -> {
+                secondary6.close();
+                chemPropCount = 0;
+            });
 			controller.onClickRefresh();
 			secondary6.show();
-			cPropCount++;
+			chemPropCount++;
 		}
 		else{
 			if(secondary6 != null){
@@ -1081,66 +1121,140 @@ public class MainController implements Initializable{
 		}
 	}
 
-	public void initChemCombo(ComboBox<String> tCompany, ComboBox<String> mfgCompany){
+	public void onClickChemPurRecords() throws IOException{
+		if(chemPCount < 1){
+			secondary7 = new Stage();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("ChemicalPurchase.fxml"));
+			Parent root = loader.load();
+			ChemicalPurController controller = loader.getController();
+			Scene s = new Scene(root,1035,560);
+			s.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			secondary7.setScene(s);
+			secondary7.resizableProperty().set(false);
+			ChemicalPurController.share(secondary7, s);
+			secondary7.setOnCloseRequest(t -> {
+				secondary7.close();
+				chemPCount = 0;
+			});
+			controller.onClickRefresh();
+			secondary7.show();
+			chemPCount++;
+		}
+		else{
+			if(secondary7 != null){
+				secondary7.requestFocus();
+			}
+		}
+	}
+
+	public void onClickChemConRecords() throws IOException{
+        if(chemCCount < 1){
+            secondary8 = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ChemicalConsume.fxml"));
+            Parent root = loader.load();
+            ChemicalConController controller = loader.getController();
+            Scene s = new Scene(root,879,594);
+            s.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+            secondary8.setScene(s);
+            secondary8.resizableProperty().set(false);
+            ChemicalConController.share(secondary8, s);
+            secondary8.setOnCloseRequest(t -> {
+                secondary8.close();
+                chemCCount = 0;
+            });
+            controller.onClickRefresh();
+            secondary8.show();
+            chemCCount++;
+        }
+        else{
+            if(secondary8 != null){
+                secondary8.requestFocus();
+            }
+        }
+    }
+
+	private void initChemCombo(ComboBox<String> chemProfile, TextField chemTCom, TextField chemMfgCom){
 		Task<Void> task = new Task<Void>(){
 			@Override
 			protected Void call() throws Exception {
 				Platform.runLater(()->{
 					Database data = null;
 					try{
-						ObservableList<String> tCom = FXCollections.observableArrayList();
-						ObservableList<String> mfgCom = FXCollections.observableArrayList();
+						ObservableList<String> profileList = FXCollections.observableArrayList();
 						data = new Database();
-						ResultSet rs = data.query("Select distinct trading_company from chemical_property");
-						while(rs.next()){
-							tCom.add(rs.getString(1));
+						ResultSet rs = data.query("Select profile_name from chemical_property");
+						while (rs.next()){
+							profileList.add(rs.getString(1));
 						}
-						if(tCom.isEmpty()){
-							tCom.add("None");
+						rs.close();
+						if(profileList.isEmpty()){
+							profileList.add("None");
 						}
-						tCompany.setItems(tCom);
-						tCompany.setOnAction((event)->{
-							if(tCompany.getSelectionModel().getSelectedItem().toString().contains("None")){
-								mfgCom.removeAll(mfgCom);
-								mfgCom.add("None");
+						chemProfile.setItems(profileList);
+						chemProfile.setOnAction((event) -> {
+							if(chemProfile.getSelectionModel().getSelectedItem().contains("None")){
+								chemTCom.setText("None");
+								chemMfgCom.setText("None");
 							}
 							else{
-								mfgCom.removeAll(mfgCom);
-								Database dat = new Database();
-								ResultSet rs1 = dat.query("select distinct type from chemical_property where trading_company = ?",
-										tCompany.getSelectionModel().getSelectedItem().toString());
+							    Database db = new Database();
+								ResultSet rs1 = db.query("Select trading_company, mfg_company from chemical_property where " +
+										"profile_name = ?", chemProfile.getSelectionModel().getSelectedItem());
 								try {
-									while(rs1.next()){
-										mfgCom.add(rs1.getString(1));
-									}
-									if(mfgCom.isEmpty()){
-										mfgCom.removeAll(mfgCom);
-										mfgCom.add("None");
-									}
+									while (rs1.next()){
+                                        chemTCom.setText(rs1.getString(1));
+                                        chemMfgCom.setText(rs1.getString(2));
+                                    }
 								} catch (SQLException e) {
-									// TODO Auto-generated catch block
 									DialogueBox.error(e);
-								} finally{
-									dat.close();
+								}
+								finally {
+								    db.close();
+                                    try {
+                                        rs1.close();
+                                    } catch (SQLException e) {
+                                        DialogueBox.error(e);
+                                    }
+                                }
+                            }
+							chemPWeight.setOnAction((event1) -> {
+								if(chemProfile.getSelectionModel().getSelectedItem() == null ||
+										!(Pattern.matches("[\\d.]+", chemPWeight.getText())) ||
+										chemProfile.getSelectionModel().getSelectedItem().contains("None")){
+									chemPCost.setText("0.0");
+								}
+								else{
+								    Database db = new Database();
+									ResultSet rs2 = db.query("select rate from chemical_property where " +
+													"profile_name = ?",
+											chemProfile.getSelectionModel().getSelectedItem());
+									double rate = 0.0;
 									try {
-										rs1.close();
+										while(rs2.next()){
+											rate = rs2.getDouble(1);
+										}
+										chemPCost.setText(String.valueOf(rate*Double.parseDouble(chemPWeight.getText())));
 									} catch (SQLException e) {
 										// TODO Auto-generated catch block
 										DialogueBox.error(e);
+									} finally{
+										db.close();
+										try {
+											rs2.close();
+										} catch (SQLException e) {
+											// TODO Auto-generated catch block
+											DialogueBox.error(e);
+										}
 									}
 								}
-							}
-							mfgCompany.setItems(mfgCom);
-							try {
-								rs.close();
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								DialogueBox.error(e);
-							}
+							});
 						});
 					}catch(Exception e){
 						DialogueBox.error(e);
 					}
+                    if (data != null) {
+                        data.close();
+                    }
 				});
 				return null;
 			}
@@ -1149,31 +1263,109 @@ public class MainController implements Initializable{
 		t.start();
 	}
 
+	public void onClickChemPurchase(){
+        if(chemPProfile.getSelectionModel().getSelectedItem() == null || chemPTCom.getText().isEmpty() ||
+                chemPMfgCom.getText().isEmpty() || chemPDate.getValue() == null || chemPChallan.getText().isEmpty() ||
+                chemPWeight.getText().isEmpty() || chemPCost.getText().isEmpty() || chemPTCost.getText().isEmpty()){
+            DialogueBox.warning("Fill the required field!");
+        }
+        else if(!(Pattern.matches("[\\d]+", chemPChallan.getText())) ||
+                !(Pattern.matches("[\\d.]+", chemPWeight.getText()) ||
+                !(Pattern.matches("[\\d.]+", chemPTCost.getText())))){
+            DialogueBox.warning("Invalid input detected!");
+        }
+        else{
+            Task<Void> task = new Task<Void>(){
+                @Override
+                protected Void call() throws Exception {
+                    Platform.runLater(()->{
+                        try{
+                            LocalDate date = chemPDate.getValue();
+                            DateTimeFormatter f = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+                            ChemicalPurchase chem = new ChemicalPurchase(chemPProfile.getSelectionModel().getSelectedItem(),
+                                    chemPTCom.getText(), date.format(f), chemPMfgCom.getText(),
+                                    Long.parseLong(chemPChallan.getText()), Double.parseDouble(chemPWeight.getText()),
+                                    Double.parseDouble(chemPCost.getText()), Double.parseDouble(chemPTCost.getText()));
+                            chem.entryPurchase();
+                        }catch(Exception e){
+                            DialogueBox.error(e);
+                        }
+                    });
+                    return null;
+                }
+            };
+            Thread t = new Thread(task);
+            t.start();
+            while(t.isAlive()){
+                loading();
+            }
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+    }
+
+    public void onClickChemConsume(){
+        if(chemCProfile.getSelectionModel().getSelectedItem() == null || chemCTCom.getText().isEmpty() ||
+                chemCMfgCom.getText().isEmpty() || chemCDate.getValue() == null || chemCChallan.getText().isEmpty() ||
+                chemCWeight.getText().isEmpty()){
+            DialogueBox.warning("Fill the required field!");
+        }
+        else if(!(Pattern.matches("[\\d]+", chemCChallan.getText())) ||
+                !(Pattern.matches("[\\d.]+", chemCWeight.getText()))){
+            DialogueBox.warning("Invalid input detected!");
+        }
+        else{
+            Task<Void> task = new Task<Void>(){
+                @Override
+                protected Void call() throws Exception {
+                    Platform.runLater(()->{
+                        try{
+                            LocalDate date = chemCDate.getValue();
+                            DateTimeFormatter f = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+                            ChemicalConsumption chem = new ChemicalConsumption(chemCProfile.getSelectionModel().getSelectedItem(),
+                                    chemCTCom.getText(), date.format(f), chemCMfgCom.getText(),
+                                    Long.parseLong(chemCChallan.getText()), Double.parseDouble(chemCWeight.getText()));
+                            chem.entryConsume();
+                        }catch(Exception e){
+                            DialogueBox.error(e);
+                        }
+                    });
+                    return null;
+                }
+            };
+            Thread t = new Thread(task);
+            t.start();
+            while(t.isAlive()){
+                loading();
+            }
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+    }
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		datePickerFormatter("dd/MM/YY", sDate);
-		datePickerFormatter("dd/MM/YY", payDate);
-		datePickerFormatter("dd/MM/YY", paperDate);
-		datePickerFormatter("dd/MM/YY", paperCDate);
+		datePickerFormatter(sDate);
+		datePickerFormatter(payDate);
+		datePickerFormatter(paperDate);
+		datePickerFormatter(paperCDate);
 		
 		toggle = new ToggleGroup();
 		sInclude.setToggleGroup(toggle);
 		sInclude.setUserData("Include");
 		sExclude.setToggleGroup(toggle);
 		sExclude.setUserData("Exclude");
-		toggle.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-		      public void changed(ObservableValue<? extends Toggle> ov,
-		          Toggle old_toggle, Toggle new_toggle) {
-		    	  if(toggle.getSelectedToggle().getUserData().toString().contains("Include") && sRate.getText().length() > 0){
-						sVAmount.setText(String.valueOf(Double.parseDouble(sRate.getText())*0.15));
-						sAAmount.setText(String.valueOf(Double.parseDouble(sRate.getText())*0.04));
-					}
-		    	  else if(toggle.getSelectedToggle().getUserData().toString().contains("Exclude")){
-		    		  sVAmount.setText("0.0");
-		    		  sAAmount.setText("0.0");
-		    	  }
-		      }
-		    });
+		toggle.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
+            if(toggle.getSelectedToggle().getUserData().toString().contains("Include") &&
+                    sRate.getText().length() > 0){
+                  sVAmount.setText(String.valueOf(Double.parseDouble(sRate.getText())*0.15));
+                  sAAmount.setText(String.valueOf(Double.parseDouble(sRate.getText())*0.04));
+              }
+            else if(toggle.getSelectedToggle().getUserData().toString().contains("Exclude")){
+                sVAmount.setText("0.0");
+                sAAmount.setText("0.0");
+            }
+        });
 		
 		this.initSalesCombo();
 		this.initPayCombo();
@@ -1182,14 +1374,17 @@ public class MainController implements Initializable{
 		
 		payChallan.setOnAction((event) -> {
 			if(payChallan.getText().length() > 0){
-				this.initPayTextField();
+			    this.initPayTextField();
 			}
 		});
-		
+
 		this.paperRate.setEditable(false);
 		this.sRate.setEditable(false);
 
-		//this.initChemCombo();
+		this.datePickerFormatter(this.chemPDate);
+		this.datePickerFormatter(this.chemCDate);
+		this.initChemCombo(this.chemPProfile, this.chemPTCom, this.chemPMfgCom);
+		this.initChemCombo(this.chemCProfile, this.chemCTCom, this.chemCMfgCom);
 	}
 	
 }

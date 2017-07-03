@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="611.0" prefWidth="1263.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+<StackPane prefHeight="611.0" prefWidth="1263.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
       <TabPane prefHeight="200.0" prefWidth="1244.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -78,8 +78,8 @@
                         <TextField fx:id="paperChallan" layoutX="173.0" layoutY="111.0" prefHeight="26.0" prefWidth="222.0" />
                         <ComboBox fx:id="paperType" layoutX="173.0" layoutY="137.0" prefHeight="26.0" prefWidth="222.0" />
                         <ComboBox fx:id="paperMill" layoutX="173.0" layoutY="163.0" prefHeight="26.0" prefWidth="221.0" />
-                        <TextField fx:id="paperWeight" layoutX="173.0" layoutY="215.0" prefHeight="26.0" prefWidth="222.0" />
-                        <TextField fx:id="paperRate" layoutX="173.0" layoutY="241.0" prefHeight="26.0" prefWidth="222.0" />
+                        <TextField fx:id="paperWeight" layoutX="173.0" layoutY="215.0" prefHeight="26.0" prefWidth="222.0" promptText="Press ENTER after input" />
+                        <TextField fx:id="paperRate" editable="false" layoutX="173.0" layoutY="241.0" prefHeight="26.0" prefWidth="222.0" />
                         <TextField fx:id="paperTCost" layoutX="173.0" layoutY="267.0" prefHeight="26.0" prefWidth="222.0" />
                         <Button fx:id="paperSubmit" layoutX="322.0" layoutY="308.0" mnemonicParsing="false" onAction="#onClickPPurchase" prefHeight="30.0" prefWidth="72.0" text="Submit" />
                         <Label alignment="CENTER_RIGHT" layoutX="457.0" layoutY="62.0" prefHeight="26.0" prefWidth="132.0" text="Trading Company :">
@@ -185,120 +185,132 @@
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="61.0" prefHeight="26.0" prefWidth="132.0" text="Trading Company :">
+                        <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="90.0" prefHeight="26.0" prefWidth="132.0" text="Trading Company :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="87.0" prefHeight="26.0" prefWidth="132.0" text="Date :">
+                        <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="116.0" prefHeight="26.0" prefWidth="132.0" text="Date :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="113.0" prefHeight="26.0" prefWidth="161.0" text="Maunfacturing Company :">
+                        <Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="142.0" prefHeight="26.0" prefWidth="161.0" text="Maunfacturing Company :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="139.0" prefHeight="26.0" prefWidth="132.0" text="Challan No. :">
+                        <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="168.0" prefHeight="26.0" prefWidth="132.0" text="Challan No. :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="165.0" prefHeight="26.0" prefWidth="132.0" text="Weight :">
+                        <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="194.0" prefHeight="26.0" prefWidth="132.0" text="Weight :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="191.0" prefHeight="26.0" prefWidth="132.0" text="Cost :">
+                        <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="220.0" prefHeight="26.0" prefWidth="132.0" text="Cost :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="217.0" prefHeight="26.0" prefWidth="132.0" text="Transportation Cost :">
+                        <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="246.0" prefHeight="26.0" prefWidth="132.0" text="Transportation Cost :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ComboBox layoutX="182.0" layoutY="61.0" prefHeight="26.0" prefWidth="221.0" />
-                        <DatePicker layoutX="182.0" layoutY="87.0" prefHeight="26.0" prefWidth="222.0" showWeekNumbers="true" />
-                        <ComboBox layoutX="182.0" layoutY="113.0" prefHeight="26.0" prefWidth="222.0" />
-                        <TextField layoutX="182.0" layoutY="165.0" prefHeight="26.0" prefWidth="222.0" />
-                        <TextField layoutX="182.0" layoutY="191.0" prefHeight="26.0" prefWidth="222.0" />
-                        <TextField layoutX="182.0" layoutY="217.0" prefHeight="26.0" prefWidth="222.0" />
-                        <Button layoutX="332.0" layoutY="256.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" text="Submit" />
-                        <Button layoutX="755.0" layoutY="242.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" text="Submit" />
+                        <DatePicker fx:id="chemPDate" editable="false" layoutX="182.0" layoutY="116.0" prefHeight="26.0" prefWidth="222.0" />
+                        <TextField fx:id="chemPWeight" layoutX="182.0" layoutY="194.0" prefHeight="26.0" prefWidth="222.0" promptText="Press ENTER after input" />
+                        <TextField fx:id="chemPCost" editable="false" layoutX="182.0" layoutY="220.0" prefHeight="26.0" prefWidth="222.0" />
+                        <TextField fx:id="chemPTCost" layoutX="182.0" layoutY="246.0" prefHeight="26.0" prefWidth="222.0" />
+                        <Button fx:id="chemPSubmit" layoutX="332.0" layoutY="285.0" mnemonicParsing="false" onAction="#onClickChemPurchase" prefHeight="30.0" prefWidth="72.0" text="Submit" />
+                        <Button layoutX="755.0" layoutY="234.0" mnemonicParsing="false" onAction="#onClickChemConsume" prefHeight="30.0" prefWidth="72.0" text="Submit" />
                         <Label layoutX="449.0" layoutY="17.0" prefHeight="28.0" prefWidth="125.0" text="Consumptions:">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Separator layoutX="418.0" layoutY="59.0" orientation="VERTICAL" prefHeight="264.0" prefWidth="4.0" />
-                        <Separator layoutX="842.0" layoutY="55.0" orientation="VERTICAL" prefHeight="264.0" prefWidth="4.0" />
-                        <Label layoutX="859.0" layoutY="28.0" prefHeight="28.0" prefWidth="211.0" text="Create Chemical Properties:">
+                        <Separator layoutX="418.0" layoutY="62.0" orientation="VERTICAL" prefHeight="264.0" prefWidth="4.0" />
+                        <Separator layoutX="842.0" layoutY="59.0" orientation="VERTICAL" prefHeight="223.0" prefWidth="1.0" />
+                        <Label layoutX="860.0" layoutY="17.0" prefHeight="28.0" prefWidth="211.0" text="Create Chemical Properties:">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="890.0" layoutY="74.0" prefHeight="26.0" prefWidth="132.0" text="Trading Company:">
+                        <Label alignment="CENTER_RIGHT" layoutX="890.0" layoutY="88.0" prefHeight="26.0" prefWidth="132.0" text="Trading Company :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="848.0" layoutY="100.0" prefHeight="26.0" prefWidth="174.0" text="Manufacturing Company :">
+                        <Label alignment="CENTER_RIGHT" layoutX="848.0" layoutY="116.0" prefHeight="26.0" prefWidth="174.0" text="Manufacturing Company :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txCreateCTCom" layoutX="1028.0" layoutY="74.0" prefHeight="26.0" prefWidth="213.0" />
-                        <TextField fx:id="txCreateCMCom" layoutX="1028.0" layoutY="100.0" prefHeight="26.0" prefWidth="213.0" />
-                        <Button fx:id="btChemCreate" layoutX="1169.0" layoutY="164.0" mnemonicParsing="false" onAction="#onClickChemCreate" prefHeight="30.0" prefWidth="72.0" text="Create" />
-                        <Button fx:id="pRecords11" layoutX="166.0" layoutY="413.0" mnemonicParsing="false" onAction="#onClickPRecords" prefHeight="30.0" prefWidth="147.0" text="Purchase Records" />
-                        <TextField layoutX="182.0" layoutY="139.0" prefHeight="26.0" prefWidth="222.0" />
-                        <Label alignment="CENTER_RIGHT" layoutX="466.0" layoutY="75.0" prefHeight="26.0" prefWidth="132.0" text="Trading Company :">
+                        <TextField fx:id="txCreateCTCom" layoutX="1028.0" layoutY="88.0" prefHeight="26.0" prefWidth="213.0" />
+                        <TextField fx:id="txCreateCMCom" layoutX="1028.0" layoutY="114.0" prefHeight="26.0" prefWidth="213.0" />
+                        <Button fx:id="btChemCreate" layoutX="1169.0" layoutY="172.0" mnemonicParsing="false" onAction="#onClickChemCreate" prefHeight="30.0" prefWidth="72.0" text="Create" />
+                        <Button fx:id="chemPRecords" layoutX="166.0" layoutY="413.0" mnemonicParsing="false" onAction="#onClickChemPurRecords" prefHeight="30.0" prefWidth="147.0" text="Purchase Records" />
+                        <TextField fx:id="chemPChallan" layoutX="182.0" layoutY="168.0" prefHeight="26.0" prefWidth="222.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="466.0" layoutY="90.0" prefHeight="26.0" prefWidth="132.0" text="Trading Company :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="466.0" layoutY="101.0" prefHeight="26.0" prefWidth="132.0" text="Date :">
+                        <Label alignment="CENTER_RIGHT" layoutX="466.0" layoutY="116.0" prefHeight="26.0" prefWidth="132.0" text="Date :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="437.0" layoutY="127.0" prefHeight="26.0" prefWidth="161.0" text="Maunfacturing Company :">
+                        <Label alignment="CENTER_RIGHT" layoutX="437.0" layoutY="142.0" prefHeight="26.0" prefWidth="161.0" text="Maunfacturing Company :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="466.0" layoutY="153.0" prefHeight="26.0" prefWidth="132.0" text="Challan No. :">
+                        <Label alignment="CENTER_RIGHT" layoutX="466.0" layoutY="168.0" prefHeight="26.0" prefWidth="132.0" text="Challan No. :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="466.0" layoutY="179.0" prefHeight="26.0" prefWidth="132.0" text="Weight :">
+                        <Label alignment="CENTER_RIGHT" layoutX="466.0" layoutY="194.0" prefHeight="26.0" prefWidth="132.0" text="Weight :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="466.0" layoutY="205.0" prefHeight="26.0" prefWidth="132.0" text="Rate :">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <ComboBox layoutX="605.0" layoutY="75.0" prefHeight="26.0" prefWidth="221.0" />
-                        <DatePicker layoutX="605.0" layoutY="101.0" prefHeight="26.0" prefWidth="222.0" showWeekNumbers="true" />
-                        <ComboBox layoutX="605.0" layoutY="127.0" prefHeight="26.0" prefWidth="222.0" />
-                        <TextField layoutX="605.0" layoutY="179.0" prefHeight="26.0" prefWidth="222.0" />
-                        <TextField layoutX="605.0" layoutY="205.0" prefHeight="26.0" prefWidth="222.0" />
-                        <TextField layoutX="605.0" layoutY="153.0" prefHeight="26.0" prefWidth="222.0" />
-                        <TextField fx:id="txCreateCRate" layoutX="1028.0" layoutY="126.0" prefHeight="26.0" prefWidth="213.0" />
-                        <Label alignment="CENTER_RIGHT" layoutX="890.0" layoutY="127.0" prefHeight="26.0" prefWidth="132.0" text="Rate :">
+                        <DatePicker fx:id="chemCDate" layoutX="605.0" layoutY="116.0" prefHeight="26.0" prefWidth="222.0" showWeekNumbers="true" />
+                        <TextField fx:id="chemCWeight" layoutX="605.0" layoutY="194.0" prefHeight="26.0" prefWidth="222.0" />
+                        <TextField fx:id="chemCChallan" layoutX="605.0" layoutY="168.0" prefHeight="26.0" prefWidth="222.0" />
+                        <TextField fx:id="txCreateCRate" layoutX="1028.0" layoutY="140.0" prefHeight="26.0" prefWidth="213.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="890.0" layoutY="142.0" prefHeight="26.0" prefWidth="132.0" text="Rate :">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
                         <Button fx:id="chemPropView" layoutX="997.0" layoutY="413.0" mnemonicParsing="false" onAction="#onClickChemRecords" prefHeight="30.0" prefWidth="147.0" text="View Property" />
-                        <Button fx:id="pRecords1111" layoutX="558.0" layoutY="413.0" mnemonicParsing="false" onAction="#onClickPRecords" prefHeight="30.0" prefWidth="147.0" text="View Property" />
+                        <Button fx:id="chemCRecords" layoutX="598.0" layoutY="413.0" mnemonicParsing="false" onAction="#onClickChemConRecords" prefHeight="30.0" prefWidth="147.0" text="Consumption Records" />
+                        <Label alignment="CENTER_RIGHT" layoutX="890.0" layoutY="62.0" prefHeight="26.0" prefWidth="132.0" text="Profile Name :">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txCreateCProfile" layoutX="1028.0" layoutY="62.0" prefHeight="26.0" prefWidth="213.0" promptText="Profile name must be unique" />
+                        <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="64.0" prefHeight="26.0" prefWidth="132.0" text="Profile :">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="chemPProfile" layoutX="182.0" layoutY="64.0" prefHeight="26.0" prefWidth="221.0" />
+                        <TextField fx:id="chemPTCom" editable="false" layoutX="182.0" layoutY="90.0" prefHeight="26.0" prefWidth="222.0" />
+                        <TextField fx:id="chemPMfgCom" editable="false" layoutX="182.0" layoutY="142.0" prefHeight="26.0" prefWidth="222.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="466.0" layoutY="64.0" prefHeight="26.0" prefWidth="132.0" text="Profile :">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="chemCProfile" layoutX="605.0" layoutY="64.0" prefHeight="26.0" prefWidth="221.0" />
+                        <TextField fx:id="chemCTCom" editable="false" layoutX="605.0" layoutY="90.0" prefHeight="26.0" prefWidth="222.0" />
+                        <TextField fx:id="chemCMfgCom" editable="false" layoutX="605.0" layoutY="142.0" prefHeight="26.0" prefWidth="222.0" />
                      </children>
                   </AnchorPane>
                </content>

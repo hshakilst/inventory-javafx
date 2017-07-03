@@ -9,28 +9,29 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="490.0" prefWidth="504.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ChemicalPropController">
+<StackPane prefHeight="490.0" prefWidth="612.0" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ChemicalPropController">
    <children>
-      <Pane prefHeight="490.0" prefWidth="596.0">
+      <Pane prefHeight="490.0" prefWidth="620.0">
          <children>
             <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="194.0" text="Chemical Properties:">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <TableView fx:id="tblProperty" editable="true" layoutX="14.0" layoutY="61.0" prefHeight="371.0" prefWidth="476.0" tableMenuButtonVisible="true">
+            <TableView fx:id="tblProperty" editable="true" layoutX="14.0" layoutY="61.0" prefHeight="371.0" prefWidth="585.0" tableMenuButtonVisible="true">
               <columns>
                   <TableColumn fx:id="colId" prefWidth="58.0" text="ID" />
+                  <TableColumn fx:id="colProfile" prefWidth="113.0" text="Profile Name" />
                 <TableColumn fx:id="colCompany" prefWidth="151.0" text="Trading Company" />
                 <TableColumn fx:id="colMfg" prefWidth="160.0" text="Manufacturing Company" />
-                  <TableColumn fx:id="colRate" prefWidth="102.0" text="Rate" />
+                  <TableColumn fx:id="colRate" prefWidth="99.0" text="Rate" />
               </columns>
             </TableView>
-            <TextField fx:id="txSearch" layoutX="240.0" layoutY="28.0" prefHeight="25.0" prefWidth="171.0" promptText="Enter a keyword..." />
-            <Button fx:id="btSearch" layoutX="427.0" layoutY="28.0" mnemonicParsing="false" onAction="#onClickSearch" prefHeight="25.0" prefWidth="61.0" text="Search" />
-            <Button fx:id="btRefresh" layoutX="420.0" layoutY="440.0" mnemonicParsing="false" onAction="#onClickRefresh" prefHeight="25.0" prefWidth="70.0" text="Refresh" />
-            <Button fx:id="btEdit" layoutX="341.0" layoutY="440.0" mnemonicParsing="false" onAction="#onClickEdit" prefHeight="25.0" prefWidth="70.0" text="Edit" />
-            <Button fx:id="btDel" layoutX="262.0" layoutY="440.0" mnemonicParsing="false" onAction="#onClickDel" prefHeight="25.0" prefWidth="70.0" text="Delete" />
+            <TextField fx:id="txSearch" layoutX="350.0" layoutY="29.0" prefHeight="25.0" prefWidth="171.0" promptText="Enter a keyword..." />
+            <Button fx:id="btSearch" layoutX="537.0" layoutY="29.0" mnemonicParsing="false" onAction="#onClickSearch" prefHeight="25.0" prefWidth="61.0" text="Search" />
+            <Button fx:id="btRefresh" layoutX="528.0" layoutY="441.0" mnemonicParsing="false" onAction="#onClickRefresh" prefHeight="25.0" prefWidth="70.0" text="Refresh" />
+            <Button fx:id="btEdit" layoutX="449.0" layoutY="441.0" mnemonicParsing="false" onAction="#onClickEdit" prefHeight="25.0" prefWidth="70.0" text="Edit" />
+            <Button fx:id="btDel" layoutX="370.0" layoutY="441.0" mnemonicParsing="false" onAction="#onClickDel" prefHeight="25.0" prefWidth="70.0" text="Delete" />
          </children></Pane>
    </children>
 </StackPane>

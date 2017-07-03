@@ -542,9 +542,9 @@ public class PaperPurController implements Initializable{
 							loadTable(rs);
 							data.close();
 							rs.close();
-							dpStart.setValue(null);
-							dpEnd.setValue(null);
-							txSearch.setText(null);
+							dpStart.getEditor().setText("");
+							dpEnd.getEditor().setText("");
+							txSearch.setText("");
 						}catch(Exception e){
 							DialogueBox.error(e);
 						}
@@ -589,10 +589,10 @@ public class PaperPurController implements Initializable{
 								rs.close();
 							}
 							data.close();
-							 
-							dpStart.setValue(null);
-							dpEnd.setValue(null);
-							txSearch.setText(null);
+
+							dpStart.getEditor().setText("");
+							dpEnd.getEditor().setText("");
+							txSearch.setText("");
 						}catch(Exception e){
 							DialogueBox.error(e);
 						}

@@ -36,6 +36,8 @@ public class ChemicalPropController implements Initializable{
 	@FXML
 	private TableColumn<ChemicalProperty, Number> colId;
 	@FXML
+	private TableColumn<ChemicalProperty, String> colProfile;
+	@FXML
 	private TableColumn<ChemicalProperty, String> colCompany;
 	@FXML
 	private TableColumn<ChemicalProperty, String> colMfg;
@@ -69,13 +71,14 @@ public class ChemicalPropController implements Initializable{
 	    ProgressIndicator pi = new ProgressIndicator();
 	    Label label = new Label("Loading...");
 	    bx.getChildren().addAll(pi,label);
-	    Scene s1 = new Scene(bx,504,490);
+	    Scene s1 = new Scene(bx,612,490);
 	    primaryStage.setScene(s1);
 	    primaryStage.show();
 	}
 	
 	public void init(){
 		colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		colProfile.setCellValueFactory(new PropertyValueFactory<>("profileName"));
 		colCompany.setCellValueFactory(new PropertyValueFactory<>("tradingCompany"));
 		colMfg.setCellValueFactory(new PropertyValueFactory<>("mfgCompany"));
 		colRate.setCellValueFactory(new PropertyValueFactory<>("rate"));
@@ -85,7 +88,7 @@ public class ChemicalPropController implements Initializable{
 		data = FXCollections.observableArrayList();
 		try {
 			while(rs.next()){
-				data.add(new ChemicalProperty(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(5)));
+				data.add(new ChemicalProperty(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(6)));
 			}
 		} catch (SQLException e) {
 			DialogueBox.error(e);
@@ -155,6 +158,7 @@ public class ChemicalPropController implements Initializable{
             protected Void call() throws Exception {
 				Platform.runLater(()->{
 					try{
+						colProfile.setCellFactory(TextFieldTableCell.forTableColumn());
 						colCompany.setCellFactory(TextFieldTableCell.forTableColumn());
 						colMfg.setCellFactory(TextFieldTableCell.forTableColumn());
 						colRate.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter(){
@@ -177,55 +181,57 @@ public class ChemicalPropController implements Initializable{
 				                }
 				            }
 						}));
+						colProfile.setOnEditCommit(tab -> {
+                            if(tab.getNewValue().isEmpty() || !(Pattern.matches("[\\w.,\\s()/\\-]+", tab.getNewValue()))){
+                                DialogueBox.warning("Invalid input detected!");
+                            }
+                            else{
+                                (tab.getTableView().getItems().get(
+                                        tab.getTablePosition().getRow())
+                                ).editProperty("profile_name",tab.getNewValue(),
+                                        tab.getTableView().getSelectionModel().getSelectedItem().getId());
+                            }
+                        });
 						colCompany.setOnEditCommit(
-					            new EventHandler<CellEditEvent<ChemicalProperty, String>>() {
-					                @Override
-					                public void handle(CellEditEvent<ChemicalProperty, String> tab) {
-					                	if(tab.getNewValue().isEmpty() || !(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", tab.getNewValue()))){
-					                		DialogueBox.warning("Invalid input detected!");
-					                	}
-					                	else{
-					                		((ChemicalProperty) tab.getTableView().getItems().get(
-							                        tab.getTablePosition().getRow())
-							                        ).editProperty("trading_company",tab.getNewValue(), 
-							                        		tab.getTableView().getSelectionModel().getSelectedItem().getId());
-					                	}
-					                }
-					            }
-					        );
+								tab -> {
+                                    if(tab.getNewValue().isEmpty() || !(Pattern.matches("[\\w.,\\s()/\\-]+", tab.getNewValue()))){
+                                        DialogueBox.warning("Invalid input detected!");
+                                    }
+                                    else{
+                                        (tab.getTableView().getItems().get(
+                                                tab.getTablePosition().getRow())
+                                                ).editProperty("trading_company",tab.getNewValue(),
+                                                        tab.getTableView().getSelectionModel().getSelectedItem().getId());
+                                    }
+                                }
+						);
 						colMfg.setOnEditCommit(
-								new EventHandler<CellEditEvent<ChemicalProperty, String>>() {
-					                @Override
-					                public void handle(CellEditEvent<ChemicalProperty, String> tab) {
-					                	if(tab.getNewValue().isEmpty() || !(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", tab.getNewValue()))){
-					                		DialogueBox.warning("Invalid input detected!");
-					                	}
-					                	else{
-					                		((ChemicalProperty) tab.getTableView().getItems().get(
-							                        tab.getTablePosition().getRow())
-							                        ).editProperty("mfg_company",tab.getNewValue(), 
-							                        		tab.getTableView().getSelectionModel().getSelectedItem().getId());
-					                	}
-					                }
-					            }
-					        );
+                                tab -> {
+                                    if(tab.getNewValue().isEmpty() || !(Pattern.matches("[\\w.,\\s()/\\-]+", tab.getNewValue()))){
+                                        DialogueBox.warning("Invalid input detected!");
+                                    }
+                                    else{
+                                        (tab.getTableView().getItems().get(
+                                                tab.getTablePosition().getRow())
+                                                ).editProperty("mfg_company",tab.getNewValue(),
+                                                        tab.getTableView().getSelectionModel().getSelectedItem().getId());
+                                    }
+                                }
+                        );
 						colRate.setOnEditCommit(
-					            new EventHandler<CellEditEvent<ChemicalProperty, Number>>() {
-					                @Override
-					                public void handle(CellEditEvent<ChemicalProperty, Number> tab) {
-					                	if(String.valueOf(tab.getNewValue()).isEmpty() || 
-					                			!(Pattern.matches("[\\d\\.]+", String.valueOf(tab.getNewValue())))){
-					                		DialogueBox.warning("Invalid input detected!");
-					                	}
-					                	else{
-					                		((ChemicalProperty) tab.getTableView().getItems().get(
-							                        tab.getTablePosition().getRow())
-							                        ).editProperty("rate",tab.getNewValue(), 
-							                        		tab.getTableView().getSelectionModel().getSelectedItem().getId());
-					                	}
-					                }
-					            }
-					        );
+                                tab -> {
+                                    if(String.valueOf(tab.getNewValue()).isEmpty() ||
+                                            !(Pattern.matches("[\\d.]+", String.valueOf(tab.getNewValue())))){
+                                        DialogueBox.warning("Invalid input detected!");
+                                    }
+                                    else{
+                                        (tab.getTableView().getItems().get(
+                                                tab.getTablePosition().getRow())
+                                                ).editProperty("rate",tab.getNewValue(),
+                                                        tab.getTableView().getSelectionModel().getSelectedItem().getId());
+                                    }
+                                }
+                        );
 					}catch(Exception e){
 						DialogueBox.error(e);
 					}
@@ -250,8 +256,9 @@ public class ChemicalPropController implements Initializable{
 					Platform.runLater(()->{
 						try{
 							Database data = new Database();
-							ResultSet rs = data.query("Select * from chemical_property where trading_company like ? OR mfg_company"
-									+ " like ?", "%"+txSearch.getText()+"%", "%"+txSearch.getText()+"%");
+							ResultSet rs = data.query("Select * from chemical_property where profile_name like ? OR " +
+									"trading_company like ? OR mfg_company like ?", "%"+txSearch.getText()+"%",
+									"%"+txSearch.getText()+"%", "%"+txSearch.getText()+"%");
 							loadTable(rs);
 							data.close();
 							rs.close();

@@ -482,9 +482,9 @@ public class PaymentController implements Initializable{
 							loadTable(rs);
 							data.close();
 							rs.close();
-							dpPayStart.setValue(null);
-							dpPayEnd.setValue(null);
-							txPaySearch.setText(null);
+							dpPayStart.getEditor().setText("");
+							dpPayEnd.getEditor().setText("");
+							txPaySearch.setText("");
 						}catch(Exception e){
 							DialogueBox.error(e);
 						}
@@ -529,9 +529,9 @@ public class PaymentController implements Initializable{
 								rs.close();
 							}
 							data.close();
-							dpPayStart.setValue(null);
-							dpPayEnd.setValue(null);
-							txPaySearch.setText(null);
+							dpPayStart.getEditor().setText("");
+							dpPayEnd.getEditor().setText("");
+							txPaySearch.setText("");
 						}catch(Exception e){
 							DialogueBox.error(e);
 						}

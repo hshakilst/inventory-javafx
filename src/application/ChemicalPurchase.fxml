@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefHeight="560.0" prefWidth="1035.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ChemicalPurController">
+    <children>
+        <Pane prefHeight="560.0" prefWidth="1077.0">
+            <children>
+                <Label layoutX="14.0" layoutY="14.0" text="Chemical Purchase Records :">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Label>
+                <TableView fx:id="tblPurchase" editable="true" layoutX="14.0" layoutY="65.0" prefHeight="408.0" prefWidth="1007.0" tableMenuButtonVisible="true">
+                    <columns>
+                        <TableColumn fx:id="colPid" prefWidth="46.0" text="PID" />
+                        <TableColumn fx:id="colDate" prefWidth="82.00001525878906" text="Date" />
+                        <TableColumn fx:id="colProfile" prefWidth="134.0" text="Profile Name" />
+                        <TableColumn fx:id="colChallan" prefWidth="107.0" text="Challan No." />
+                        <TableColumn fx:id="colTCom" prefWidth="179.0" text="Trading Company" />
+                        <TableColumn fx:id="colMfgCom" prefWidth="170.0" text="Manufacturing Company" />
+                        <TableColumn fx:id="colWeight" prefWidth="88.0" text="Weight" />
+                        <TableColumn fx:id="colRate" prefWidth="82.0" text="Cost" />
+                        <TableColumn fx:id="colTCost" prefWidth="114.0" text="Transport Cost" />
+                    </columns>
+                </TableView>
+                <Button fx:id="btRefresh" layoutX="953.0" layoutY="521.0" mnemonicParsing="false" onAction="#onClickRefresh" prefHeight="25.0" prefWidth="65.0" text="Refresh" />
+                <Button fx:id="btEdit" layoutX="880.0" layoutY="521.0" mnemonicParsing="false" onAction="#onClickEdit" prefHeight="25.0" prefWidth="65.0" text="Edit" />
+                <Button fx:id="btDel" layoutX="806.0" layoutY="521.0" mnemonicParsing="false" onAction="#onClickDel" prefHeight="25.0" prefWidth="65.0" text="Delete" />
+                <TextField fx:id="txSearch" layoutX="781.0" layoutY="33.0" prefHeight="25.0" prefWidth="160.0" promptText="Enter a keyword" />
+                <Button fx:id="btSearch" layoutX="955.0" layoutY="33.0" mnemonicParsing="false" onAction="#onClickSearch" prefHeight="25.0" prefWidth="65.0" text="Search" />
+                <DatePicker fx:id="dpStart" editable="false" layoutX="356.0" layoutY="33.0" promptText="Start Date" />
+                <DatePicker fx:id="dpEnd" editable="false" layoutX="564.0" layoutY="33.0" promptText="End Date" />
+                <Label layoutX="541.0" layoutY="37.0" text="To" />
+                <Label layoutX="276.0" layoutY="37.0" text="Date Range :" />
+                <TextField fx:id="txTotal" alignment="CENTER_RIGHT" editable="false" layoutX="806.0" layoutY="481.0" prefHeight="25.0" prefWidth="214.0" promptText="Total">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </TextField>
+            </children>
+        </Pane>
+    </children>
+</StackPane>

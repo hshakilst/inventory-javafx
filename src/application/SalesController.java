@@ -584,7 +584,7 @@ public class SalesController implements Initializable{
 	}
 	
 	public void onClickSearch(){
-		if(!(txSaleSearch.getText().length() < 1)){
+		if(!(txSaleSearch.getText().isEmpty())){
 			Task<Void> task = new Task<Void>(){
 				@Override
 	            protected Void call() throws Exception {
@@ -625,9 +625,9 @@ public class SalesController implements Initializable{
 							loadTable(rs);
 							data.close();
 							rs.close();
-							dpSaleStart.setValue(null);
-							dpSaleEnd.setValue(null);
-							txSaleSearch.setText(null);
+							dpSaleStart.getEditor().setText("");
+							dpSaleEnd.getEditor().setText("");
+							txSaleSearch.setText("");
 						}catch(Exception e){
 							DialogueBox.error(e);
 						}
@@ -671,9 +671,9 @@ public class SalesController implements Initializable{
 								rs.close();
 							}
 							data.close();
-							dpSaleStart.setValue(null);
-							dpSaleEnd.setValue(null);
-							txSaleSearch.setText(null);
+							dpSaleStart.getEditor().setText("");
+							dpSaleEnd.getEditor().setText("");
+							txSaleSearch.setText("");
 						}catch(Exception e){
 							DialogueBox.error(e);
 						}

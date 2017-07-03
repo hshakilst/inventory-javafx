@@ -127,7 +127,7 @@ public class PaperConController implements Initializable{
 	    ProgressIndicator pi = new ProgressIndicator();
 	    Label label = new Label("Loading...");
 	    bx.getChildren().addAll(pi,label);
-	    Scene s1 = new Scene(bx,980,560);
+	    Scene s1 = new Scene(bx,879.0,594);
 	    primaryStage.setScene(s1);
 	    primaryStage.show();
 	}
@@ -463,9 +463,9 @@ public class PaperConController implements Initializable{
 							loadTable(rs);
 							data.close();
 							rs.close();
-							dpStart.setValue(null);
-							dpEnd.setValue(null);
-							txSearch.setText(null);
+							dpStart.getEditor().setText("");
+							dpEnd.getEditor().setText("");
+							txSearch.setText("");
 						}catch(Exception e){
 							DialogueBox.error(e);
 						}
@@ -510,10 +510,10 @@ public class PaperConController implements Initializable{
 								rs.close();
 							}
 							data.close();
-							 
-							dpStart.setValue(null);
-							dpEnd.setValue(null);
-							txSearch.setText(null);
+
+							dpStart.getEditor().setText("");
+							dpEnd.getEditor().setText("");
+							txSearch.setText("");
 						}catch(Exception e){
 							DialogueBox.error(e);
 						}

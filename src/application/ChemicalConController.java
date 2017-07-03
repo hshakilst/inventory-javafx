@@ -2,7 +2,6 @@ package application;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -27,29 +26,25 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 /**
- * Created by hshakilst on 3/19/2017.
+ * Created by hshakilst on 7/4/2017.
  */
-public class ChemicalPurController implements Initializable {
+public class ChemicalConController implements Initializable {
     @FXML
-    private TableView<ChemicalPurchase> tblPurchase;
+    private TableView<ChemicalConsumption> tblPurchase;
     @FXML
-    private TableColumn<ChemicalPurchase, Number> colPid;
+    private TableColumn<ChemicalConsumption, Number> colPid;
     @FXML
-    private TableColumn<ChemicalPurchase, String> colDate;
+    private TableColumn<ChemicalConsumption, String> colDate;
     @FXML
-    private TableColumn<ChemicalPurchase, String> colTCom;
+    private TableColumn<ChemicalConsumption, String> colTCom;
     @FXML
-    private TableColumn<ChemicalPurchase, Number> colChallan;
+    private TableColumn<ChemicalConsumption, Number> colChallan;
     @FXML
-    private TableColumn<ChemicalPurchase, String> colProfile;
+    private TableColumn<ChemicalConsumption, String> colProfile;
     @FXML
-    private TableColumn<ChemicalPurchase, String> colMfgCom;
+    private TableColumn<ChemicalConsumption, String> colMfgCom;
     @FXML
-    private TableColumn<ChemicalPurchase, Number> colWeight;
-    @FXML
-    private TableColumn<ChemicalPurchase, Number> colRate;
-    @FXML
-    private TableColumn<ChemicalPurchase, Number> colTCost;
+    private TableColumn<ChemicalConsumption, Number> colWeight;
     @FXML
     private Button btRefresh;
     @FXML
@@ -61,16 +56,14 @@ public class ChemicalPurController implements Initializable {
     @FXML
     private TextField txSearch;
     @FXML
-    private TextField txTotal;
-    @FXML
     private DatePicker dpStart;
     @FXML
     private DatePicker dpEnd;
 
-    private ObservableList<ChemicalPurchase> data;
+    private ObservableList<ChemicalConsumption> data;
     private static Stage primaryStage;
     private static Scene scene;
-    private ChemicalPurchase p;
+    private ChemicalConsumption p;
     public static Stage secondary;
 
     public static void share(Stage p, Scene s){
@@ -122,7 +115,7 @@ public class ChemicalPurController implements Initializable {
         ProgressIndicator pi = new ProgressIndicator();
         Label label = new Label("Loading...");
         bx.getChildren().addAll(pi,label);
-        Scene s1 = new Scene(bx,1035,560);
+        Scene s1 = new Scene(bx,879,594);
         primaryStage.setScene(s1);
         primaryStage.show();
     }
@@ -135,8 +128,6 @@ public class ChemicalPurController implements Initializable {
         colProfile.setCellValueFactory(new PropertyValueFactory<>("profileName"));
         colMfgCom.setCellValueFactory(new PropertyValueFactory<>("mfgCompany"));
         colWeight.setCellValueFactory(new PropertyValueFactory<>("weight"));
-        colRate.setCellValueFactory(new PropertyValueFactory<>("rate"));
-        colTCost.setCellValueFactory(new PropertyValueFactory<>("transportCost"));
     }
 
     public void loadTable(ResultSet rs) throws SQLException {
@@ -148,9 +139,8 @@ public class ChemicalPurController implements Initializable {
                     String arr[] = date.split("-");
                     date = arr[2]+"/"+arr[1]+"/"+arr[0].substring(2);
                 }
-                data.add(new ChemicalPurchase(rs.getInt(1), rs.getString(2), rs.getString(3), date,
-                        rs.getString(5), rs.getLong(6), rs.getDouble(7), rs.getDouble(8),
-                        rs.getDouble(9)));
+                data.add(new ChemicalConsumption(rs.getInt(1), rs.getString(2), rs.getString(3), date,
+                        rs.getString(5), rs.getLong(6), rs.getDouble(7)));
             }
         } catch (SQLException e) {
             DialogueBox.error(e);
@@ -167,7 +157,7 @@ public class ChemicalPurController implements Initializable {
                     try{
                         init();
                         Database db = new Database();
-                        ResultSet rs = db.query("Select * from chemical_purchase");
+                        ResultSet rs = db.query("Select * from chemical_consumption");
                         loadTable(rs);
                         db.close();
                         rs.close();
@@ -195,7 +185,7 @@ public class ChemicalPurController implements Initializable {
                     Platform.runLater(()->{
                         try{
                             p = tblPurchase.getSelectionModel().getSelectedItem();
-                            p.deletePurchase(p.getId());
+                            p.deleteConsume(p.getId());
                             onClickRefresh();
                         }catch(Exception e){
                             DialogueBox.error(e);
@@ -264,50 +254,10 @@ public class ChemicalPurController implements Initializable {
                                 }
                             }
                         }));
-                        colRate.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter(){
-                            @Override
-                            public String toString(Number number) {
-                                return String.valueOf(number.doubleValue());
-                            }
-                            @Override
-                            public Double fromString(String string) {
-                                try {
-                                    double value = Double.parseDouble(string);
-                                    return value;
-                                } catch (NumberFormatException e) {
-                                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                                    alert.setTitle("Warning!");
-                                    alert.setHeaderText(null);
-                                    alert.setContentText("Invalid input detected!");
-                                    alert.showAndWait();
-                                    return Double.parseDouble(toString());
-                                }
-                            }
-                        }));
-                        colTCost.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter(){
-                            @Override
-                            public String toString(Number number) {
-                                return String.valueOf(number.doubleValue());
-                            }
-                            @Override
-                            public Double fromString(String string) {
-                                try {
-                                    double value = Double.parseDouble(string);
-                                    return value;
-                                } catch (NumberFormatException e) {
-                                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                                    alert.setTitle("Warning!");
-                                    alert.setHeaderText(null);
-                                    alert.setContentText("Invalid input detected!");
-                                    alert.showAndWait();
-                                    return Double.parseDouble(toString());
-                                }
-                            }
-                        }));
                         colDate.setOnEditCommit(
-                                new EventHandler<TableColumn.CellEditEvent<ChemicalPurchase, String>>() {
+                                new EventHandler<TableColumn.CellEditEvent<ChemicalConsumption, String>>() {
                                     @Override
-                                    public void handle(TableColumn.CellEditEvent<ChemicalPurchase, String> tab) {
+                                    public void handle(TableColumn.CellEditEvent<ChemicalConsumption, String> tab) {
                                         if(tab.getNewValue().isEmpty() ||
                                                 !(Pattern.matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$", tab.getNewValue()))){
                                             DialogueBox.warning("Invalid! Date should be \"YYYY-MM-DD\" format!");
@@ -315,64 +265,64 @@ public class ChemicalPurController implements Initializable {
                                         else{
                                             (tab.getTableView().getItems().get(
                                                     tab.getTablePosition().getRow())
-                                            ).editPurchase("date",tab.getNewValue(),
+                                            ).editConsume("date",tab.getNewValue(),
                                                     tab.getTableView().getSelectionModel().getSelectedItem().getId());
                                         }
                                     }
                                 }
                         );
                         colTCom.setOnEditCommit(
-                                new EventHandler<TableColumn.CellEditEvent<ChemicalPurchase, String>>() {
+                                new EventHandler<TableColumn.CellEditEvent<ChemicalConsumption, String>>() {
                                     @Override
-                                    public void handle(TableColumn.CellEditEvent<ChemicalPurchase, String> tab) {
+                                    public void handle(TableColumn.CellEditEvent<ChemicalConsumption, String> tab) {
                                         if(tab.getNewValue().isEmpty() || !(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", tab.getNewValue()))){
                                             DialogueBox.warning("Invalid input detected!");
                                         }
                                         else{
                                             (tab.getTableView().getItems().get(
                                                     tab.getTablePosition().getRow())
-                                            ).editPurchase("trading_company",tab.getNewValue(),
+                                            ).editConsume("trading_company",tab.getNewValue(),
                                                     tab.getTableView().getSelectionModel().getSelectedItem().getId());
                                         }
                                     }
                                 }
                         );
                         colProfile.setOnEditCommit(
-                                new EventHandler<TableColumn.CellEditEvent<ChemicalPurchase, String>>() {
+                                new EventHandler<TableColumn.CellEditEvent<ChemicalConsumption, String>>() {
                                     @Override
-                                    public void handle(TableColumn.CellEditEvent<ChemicalPurchase, String> tab) {
+                                    public void handle(TableColumn.CellEditEvent<ChemicalConsumption, String> tab) {
                                         if(tab.getNewValue().isEmpty() || !(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", tab.getNewValue()))){
                                             DialogueBox.warning("Invalid input detected!");
                                         }
                                         else{
                                             (tab.getTableView().getItems().get(
                                                     tab.getTablePosition().getRow())
-                                            ).editPurchase("profile_name",tab.getNewValue(),
+                                            ).editConsume("profile_name",tab.getNewValue(),
                                                     tab.getTableView().getSelectionModel().getSelectedItem().getId());
                                         }
                                     }
                                 }
                         );
                         colMfgCom.setOnEditCommit(
-                                new EventHandler<TableColumn.CellEditEvent<ChemicalPurchase, String>>() {
+                                new EventHandler<TableColumn.CellEditEvent<ChemicalConsumption, String>>() {
                                     @Override
-                                    public void handle(TableColumn.CellEditEvent<ChemicalPurchase, String> tab) {
+                                    public void handle(TableColumn.CellEditEvent<ChemicalConsumption, String> tab) {
                                         if(tab.getNewValue().isEmpty() || !(Pattern.matches("[\\w\\.\\,\\s\\(\\)\\/\\-]+", tab.getNewValue()))){
                                             DialogueBox.warning("Invalid input detected!");
                                         }
                                         else{
                                             (tab.getTableView().getItems().get(
                                                     tab.getTablePosition().getRow())
-                                            ).editPurchase("mfg_company",tab.getNewValue(),
+                                            ).editConsume("mfg_company",tab.getNewValue(),
                                                     tab.getTableView().getSelectionModel().getSelectedItem().getId());
                                         }
                                     }
                                 }
                         );
                         colChallan.setOnEditCommit(
-                                new EventHandler<TableColumn.CellEditEvent<ChemicalPurchase, Number>>() {
+                                new EventHandler<TableColumn.CellEditEvent<ChemicalConsumption, Number>>() {
                                     @Override
-                                    public void handle(TableColumn.CellEditEvent<ChemicalPurchase, Number> tab) {
+                                    public void handle(TableColumn.CellEditEvent<ChemicalConsumption, Number> tab) {
                                         if(String.valueOf(tab.getNewValue()).isEmpty() ||
                                                 !(Pattern.matches("[\\d]+", String.valueOf(tab.getNewValue())))){
                                             DialogueBox.warning("Invalid input detected!");
@@ -380,16 +330,16 @@ public class ChemicalPurController implements Initializable {
                                         else{
                                             (tab.getTableView().getItems().get(
                                                     tab.getTablePosition().getRow())
-                                            ).editPurchase("challan_no",tab.getNewValue(),
+                                            ).editConsume("challan_no",tab.getNewValue(),
                                                     tab.getTableView().getSelectionModel().getSelectedItem().getId());
                                         }
                                     }
                                 }
                         );
                         colWeight.setOnEditCommit(
-                                new EventHandler<TableColumn.CellEditEvent<ChemicalPurchase, Number>>() {
+                                new EventHandler<TableColumn.CellEditEvent<ChemicalConsumption, Number>>() {
                                     @Override
-                                    public void handle(TableColumn.CellEditEvent<ChemicalPurchase, Number> tab) {
+                                    public void handle(TableColumn.CellEditEvent<ChemicalConsumption, Number> tab) {
                                         if(String.valueOf(tab.getNewValue()).isEmpty() ||
                                                 !(Pattern.matches("[\\d\\.]+", String.valueOf(tab.getNewValue())))){
                                             DialogueBox.warning("Invalid input detected!");
@@ -397,41 +347,7 @@ public class ChemicalPurController implements Initializable {
                                         else{
                                             (tab.getTableView().getItems().get(
                                                     tab.getTablePosition().getRow())
-                                            ).editPurchase("weight",tab.getNewValue(),
-                                                    tab.getTableView().getSelectionModel().getSelectedItem().getId());
-                                        }
-                                    }
-                                }
-                        );
-                        colRate.setOnEditCommit(
-                                new EventHandler<TableColumn.CellEditEvent<ChemicalPurchase, Number>>() {
-                                    @Override
-                                    public void handle(TableColumn.CellEditEvent<ChemicalPurchase, Number> tab) {
-                                        if(String.valueOf(tab.getNewValue()).isEmpty() ||
-                                                !(Pattern.matches("[\\d.]+", String.valueOf(tab.getNewValue())))){
-                                            DialogueBox.warning("Invalid input detected!");
-                                        }
-                                        else{
-                                            (tab.getTableView().getItems().get(
-                                                    tab.getTablePosition().getRow())
-                                            ).editPurchase("rate",tab.getNewValue(),
-                                                    tab.getTableView().getSelectionModel().getSelectedItem().getId());
-                                        }
-                                    }
-                                }
-                        );
-                        colTCost.setOnEditCommit(
-                                new EventHandler<TableColumn.CellEditEvent<ChemicalPurchase, Number>>() {
-                                    @Override
-                                    public void handle(TableColumn.CellEditEvent<ChemicalPurchase, Number> tab) {
-                                        if(String.valueOf(tab.getNewValue()).isEmpty() ||
-                                                !(Pattern.matches("[\\d.]+", String.valueOf(tab.getNewValue())))){
-                                            DialogueBox.warning("Invalid input detected!");
-                                        }
-                                        else{
-                                            (tab.getTableView().getItems().get(
-                                                    tab.getTablePosition().getRow())
-                                            ).editPurchase("transport_cost",tab.getNewValue(),
+                                            ).editConsume("weight",tab.getNewValue(),
                                                     tab.getTableView().getSelectionModel().getSelectedItem().getId());
                                         }
                                     }
@@ -463,7 +379,7 @@ public class ChemicalPurController implements Initializable {
                             Database data = new Database();
                             ResultSet rs = null;
                             if(dpStart.getValue() == null && dpEnd.getValue() == null){
-                                rs = data.query("Select * from chemical_purchase where (profile_name like ? OR " +
+                                rs = data.query("Select * from chemical_consumption where (profile_name like ? OR " +
                                                 "trading_company like ? OR challan_no like ? or mfg_company like ?)",
                                         "%"+txSearch.getText()+"%", "%"+txSearch.getText()+"%", "%"+txSearch.getText()+"%"
                                         , "%"+txSearch.getText()+"%");
@@ -476,7 +392,7 @@ public class ChemicalPurController implements Initializable {
                                 else{
                                     date = dpStart.getValue().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
                                 }
-                                rs = data.query("Select * from chemical_purchase where (profile_name like ? OR " +
+                                rs = data.query("Select * from chemical_consumption where (profile_name like ? OR " +
                                                 "trading_company like ? OR challan_no like ? or mfg_company like ?)"
                                                 + "and date like ?", "%"+txSearch.getText()+"%", "%"+txSearch.getText()+"%",
                                         "%"+txSearch.getText()+"%", "%"+txSearch.getText()+"%", "%"+date+"%");
@@ -486,7 +402,7 @@ public class ChemicalPurController implements Initializable {
                                 String eDate;
                                 sDate = dpStart.getValue().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
                                 eDate = dpEnd.getValue().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-                                rs = data.query("Select * from chemical_purchase where date between ? and ? and "
+                                rs = data.query("Select * from chemical_consumption where date between ? and ? and "
                                                 + "(profile_name like ? OR trading_company like ? OR challan_no like ? or mfg_company like ?)",
                                         sDate, eDate, "%"+txSearch.getText()+"%", "%"+txSearch.getText()+"%","%"+txSearch.getText()+"%",
                                         "%"+txSearch.getText()+"%");
@@ -527,14 +443,14 @@ public class ChemicalPurController implements Initializable {
                                 else{
                                     date = dpStart.getValue().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
                                 }
-                                rs = data.query("Select * from chemical_purchase where date like ?", "%"+date+"%");
+                                rs = data.query("Select * from chemical_consumption where date like ?", "%"+date+"%");
                             }
                             else{
                                 String sDate;
                                 String eDate;
                                 sDate = dpStart.getValue().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
                                 eDate = dpEnd.getValue().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-                                rs = data.query("Select * from chemical_purchase where date between ? and ? ", sDate, eDate);
+                                rs = data.query("Select * from chemical_consumption where date between ? and ? ", sDate, eDate);
 
                             }
                             if(rs != null){
@@ -543,9 +459,9 @@ public class ChemicalPurController implements Initializable {
                             }
                             data.close();
 
-                            dpStart.setValue(null);
-                            dpEnd.setValue(null);
-                            txSearch.setText(null);
+                            dpStart.getEditor().setText("");
+                            dpEnd.getEditor().setText("");
+                            txSearch.setText("");
                         }catch(Exception e){
                             DialogueBox.error(e);
                         }
@@ -563,22 +479,9 @@ public class ChemicalPurController implements Initializable {
         primaryStage.show();
     }
 
-    public String addTotal(ObservableList<ChemicalPurchase> data){
-        double total = 0;
-        for(ChemicalPurchase d : data){
-            total += (d.getRate()+d.getTransportCost());
-        }
-        return String.valueOf(total);
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         datePickerFormatter("dd/MM/YY", dpStart);
         datePickerFormatter("dd/MM/YY", dpEnd);
-        tblPurchase.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        tblPurchase.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change<? extends ChemicalPurchase> change) -> {
-            ObservableList<ChemicalPurchase> selectedItems = tblPurchase.getSelectionModel().getSelectedItems();
-            txTotal.setText(addTotal(selectedItems));
-        });
     }
 }
